@@ -18,12 +18,12 @@ export const SvgComponent = () => {
 };
 
 const Rectangle = ({ animateId, x }: { animateId: number; x: number }) => {
-  const beginTime = animateId === 0 ? `0s;rectRepeat.end` : `rect${animateId - 1}.end`;
+  const beginTime = animateId === 0 ? `0s;rectRepeat.end` : `rect${(animateId - 1).toString()}.end`;
 
   return (
     <rect width={8} height={16} y={2} x={x} fill="#2F130F" rx={1} opacity={0.1}>
       <animate
-        id={`rect${animateId}`}
+        id={`rect${animateId.toString()}`}
         attributeName="opacity"
         values="0.5;1"
         begin={beginTime}
@@ -36,7 +36,7 @@ const Rectangle = ({ animateId, x }: { animateId: number; x: number }) => {
         from="1"
         to="0.1"
         dur="0.0001s"
-        begin={`rect${RECT_COUNT - 1}.end`}
+        begin={`rect${(RECT_COUNT - 1).toString()}.end`}
         fill="freeze"
       />
     </rect>

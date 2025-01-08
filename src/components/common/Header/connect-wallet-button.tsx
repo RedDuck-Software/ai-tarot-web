@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { WalletReadyState } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { PhantomWalletName, SolflareWalletName } from '@solana/wallet-adapter-wallets';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { SvgComponent } from './progress-bar';
+
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -29,6 +30,11 @@ export const ConnectWalletButton = () => {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const [popoverWidth, setPopoverWidth] = useState<number>();
+
+  const handleDisconnect = async () => {
+    await disconnect();
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     if (buttonRef.current?.clientWidth) {
@@ -56,10 +62,7 @@ export const ConnectWalletButton = () => {
         </PopoverTrigger>
         <PopoverContent style={{ width: popoverWidth }} className="border-0">
           <Button
-            onClick={async () => {
-              await disconnect();
-              setIsOpen(false);
-            }}
+            onClick={() => void handleDisconnect()}
             className="h-fit w-full bg-[#d1f93d] px-[26px] py-[15px] text-[20px] uppercase leading-[24px]"
           >
             LOG OUT
@@ -75,7 +78,9 @@ export const ConnectWalletButton = () => {
         <Button
           className="h-fit w-full px-[26px] py-[15px] text-[20px] uppercase leading-[24px]"
           variant="outline"
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            setIsOpen(true);
+          }}
         >
           Connect Wallet
         </Button>

@@ -7,5 +7,7 @@ interface WalletModalStore {
 
 export const useWalletModalStore = create<WalletModalStore>((set) => ({
   isOpen: false,
-  setIsOpen: (isOpen: boolean) => set({ isOpen }),
+  setIsOpen: (isOpen: boolean) => {
+    set({ isOpen });
+  },
 }));

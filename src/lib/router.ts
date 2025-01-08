@@ -1,6 +1,7 @@
+import { createBrowserRouter } from 'react-router';
+
 import { DefaultLayout } from '@/layouts/default-layout';
 import { HomePage } from '@/pages/home-page';
-import { createBrowserRouter } from 'react-router';
 
 export const routes = {
   HOME: '/',
