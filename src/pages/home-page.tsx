@@ -1,4 +1,4 @@
-import { ConnectWalletButton } from '@/components/connect-wallet-button';
+import { ConnectWalletButton } from '@/components/common/Header/connect-wallet-button';
 
 export function HomePage() {
   return (
