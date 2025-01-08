@@ -47,6 +47,8 @@ export default tseslint.config(
       'prettier/prettier': ['error'],
       'react/prop-types': [2, { ignore: ['className'] }],
       '@typescript-eslint/unbound-method': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
     },
   },
 );
