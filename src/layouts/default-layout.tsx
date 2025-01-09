@@ -2,7 +2,7 @@ import { Outlet } from 'react-router';
 
 export function DefaultLayout() {
   return (
-    <main>
+    <main className="w-full">
       <Outlet />
     </main>
   );
