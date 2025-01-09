@@ -1,7 +1,7 @@
+import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router';
 
 import { DefaultLayout } from '@/layouts/default-layout';
-import { HomePage } from '@/pages/home-page';
 
 export const routes = {
   HOME: '/',
@@ -14,11 +14,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: routes.HOME,
-        Component: HomePage,
+        Component: lazy(() => import('@/pages/home-page')),
       },
       {
         path: routes.GAME,
-        Component: HomePage,
+        Component: lazy(() => import('@/pages/game-page')),
       },
     ],
   },
