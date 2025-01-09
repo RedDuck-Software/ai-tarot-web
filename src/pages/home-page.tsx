@@ -1,17 +1,20 @@
-import { ConnectWalletButton } from '@/components/common/Header/connect-wallet-button';
-import useTransferSolana from '@/hooks/contracts/write/use-transfer-solana';
+import { Link } from 'react-router';
 
-export function HomePage() {
-  const { mutateAsync: transfer } = useTransferSolana();
+import { Button } from '@/components/ui/button';
+import { routes } from '@/lib/router';
 
-  const handleTransfer = async () => {
-    await transfer();
-  };
+export default function HomePage() {
   return (
     <div>
-      <h1>Home page</h1>
-      <ConnectWalletButton />
-      <button onClick={() => void handleTransfer()}>handleTransfer</button>
+      <h1 className="mb-4 text-center text-2xl">Home page</h1>
+      <div className="flex gap-4">
+        <Link to={routes.GAME}>
+          <Button>Go to app</Button>
+        </Link>
+        <a href="https://x.com/" target="_blank" rel="noreferrer">
+          <Button>Twitter</Button>
+        </a>
+      </div>
     </div>
   );
 }

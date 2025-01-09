@@ -5,6 +5,6 @@ export const wSolMint = new PublicKey('So111111111111111111111111111111111111111
 
 // todo change addresses
 export const OwnerAddress = {
-  [WalletAdapterNetwork.Mainnet]: new PublicKey('dBLGG3ERvVsAexwfLeRaPUSzQQryKsabNEFKpuMqQqQ'),
-  [WalletAdapterNetwork.Devnet]: new PublicKey('dBLGG3ERvVsAexwfLeRaPUSzQQryKsabNEFKpuMqQqQ'),
+  [WalletAdapterNetwork.Mainnet]: new PublicKey('9L3FxnqEurHxQBANpcZbjgP8tHUNrLFXzGk1pjZVr47x'),
+  [WalletAdapterNetwork.Devnet]: new PublicKey('9L3FxnqEurHxQBANpcZbjgP8tHUNrLFXzGk1pjZVr47x'),
 };

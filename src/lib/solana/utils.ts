@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/only-throw-error */
 import { WalletAdapterProps } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
@@ -26,7 +26,7 @@ export const sendAndConfirmTransaction = async (
     'finalized',
   );
 
-  if (result.value.err) result.value.err;
+  if (result.value.err) throw result.value.err;
 
   return txHash;
 };

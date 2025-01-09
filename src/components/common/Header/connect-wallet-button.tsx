@@ -63,7 +63,7 @@ export const ConnectWalletButton = () => {
         <PopoverContent style={{ width: popoverWidth }} className="border-0">
           <Button
             onClick={() => void handleDisconnect()}
-            className="h-fit w-full bg-[#d1f93d] px-[26px] py-[15px] text-[20px] uppercase leading-[24px]"
+            className="h-fit w-full bg-blue-600 px-[26px] py-[15px] text-[20px] uppercase leading-[24px]"
           >
             LOG OUT
           </Button>

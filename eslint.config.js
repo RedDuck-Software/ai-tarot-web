@@ -46,9 +46,18 @@ export default tseslint.config(
       ...react.configs['jsx-runtime'].rules,
       'prettier/prettier': ['error'],
       'react/prop-types': [2, { ignore: ['className'] }],
+      '@typescript-eslint/no-misused-promises': [
+        2,
+        {
+          checksVoidReturn: {
+            attributes: false,
+          },
+        },
+      ],
       '@typescript-eslint/unbound-method': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
     },
   },
 );
