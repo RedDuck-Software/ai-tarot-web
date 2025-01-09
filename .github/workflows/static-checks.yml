@@ -17,10 +17,10 @@ jobs:
         with:
           node-version: '20'
       - uses: actions/cache@v3
-        id: cache
+        id: cache2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/yarn.lock') }}-${{ github.sha }}
           restore-keys: ${{ runner.os }}-npm-
       - name: Install project dependencies
         if: steps.cache.outputs.cache-hit != 'true'
