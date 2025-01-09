@@ -41,7 +41,7 @@ export const GameSection = () => {
 
   useEffect(() => {
     if (predictionAnswer) {
-      setValue('question', predictionAnswer.response + '\n' + watch('question'));
+      setValue('question', predictionAnswer + '\n' + watch('question'));
     }
   }, [isSuccess, predictionAnswer, setValue, watch]);
 
