@@ -21,14 +21,14 @@ export const AboutSection = () => {
       <div className="w-full space-y-8 pl-[100px] pr-[140px]">
         <p className="text-[60px] font-light leading-[72px]">Rules</p>
 
-        <div className="flex w-full max-w-full flex-row justify-between overflow-x-hidden *:h-[310px] *:w-[217px]">
+        <div className="flex w-full max-w-full flex-row justify-between overflow-x-hidden *:h-[248px] *:w-[173px] 2xl:*:h-[310px] 2xl:*:w-[217px]">
           <img src="/libra-card.png" alt="tarot1" />
           <img src="/libra-card.png" alt="tarot2" />
           <img src="/libra-card.png" alt="tarot3" />
         </div>
 
         <Accordion type="single" defaultValue="item-0">
-          {new Array(10).fill(0).map((_, i) => (
+          {new Array(6).fill(0).map((_, i) => (
             <AccordionItem value={`item-${i}`} key={i}>
               <AccordionTrigger>Is it accessible?</AccordionTrigger>
               <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
