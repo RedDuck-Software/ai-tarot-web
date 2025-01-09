@@ -2,7 +2,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 
 export const AboutSection = () => {
   return (
-    <div className="font-inknut grid w-full grid-cols-2 bg-[url('/about.png')] bg-repeat *:pb-[60px] *:pt-[80px]">
+    <div className="grid w-full grid-cols-2 bg-[url('/images/textures/green.png')] bg-repeat font-inknut *:pb-[60px] *:pt-[80px]">
       <div className="flex h-full min-h-full w-full flex-col justify-between border-r border-black pl-[140px] pr-[100px]">
         <div className="space-y-8">
           <p className="text-[60px] font-light leading-[72px]">About Tarot</p>
@@ -15,16 +15,16 @@ export const AboutSection = () => {
           </p>
         </div>
 
-        <img src="/sun.png" alt="tarot1" className="!mt-auto ml-auto h-[320px] w-[305px]" />
+        <img src="/images/sun.png" alt="tarot1" className="!mt-auto ml-auto h-[320px] w-[305px]" />
       </div>
 
       <div className="w-full space-y-8 pl-[100px] pr-[140px]">
         <p className="text-[60px] font-light leading-[72px]">Rules</p>
 
         <div className="flex w-full max-w-full flex-row justify-between overflow-x-hidden *:h-[248px] *:w-[173px] 2xl:*:h-[310px] 2xl:*:w-[217px]">
-          <img src="/libra-card.png" alt="tarot1" />
-          <img src="/libra-card.png" alt="tarot2" />
-          <img src="/libra-card.png" alt="tarot3" />
+          <img src="/images/libra-card.png" alt="tarot1" />
+          <img src="/images/libra-card.png" alt="tarot2" />
+          <img src="/images/libra-card.png" alt="tarot3" />
         </div>
 
         <Accordion type="single" defaultValue="item-0">
