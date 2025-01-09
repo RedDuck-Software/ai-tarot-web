@@ -10,7 +10,7 @@ export const TarotLine = ({ className, words }: BaseComponentProps<{ words: stri
       )}
     >
       <div className="flex w-full justify-center overflow-hidden">
-        <div className="animate-tarot-line-scroll flex justify-between">
+        <div className="flex animate-tarot-line-scroll justify-between">
           {words.map((word, index) => (
             <div
               key={index}
