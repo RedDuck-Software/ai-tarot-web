@@ -1,5 +1,5 @@
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Transaction, SystemProgram } from '@solana/web3.js';
+import { SystemProgram, Transaction } from '@solana/web3.js';
 import { useMutation } from '@tanstack/react-query';
 
 import { OwnerAddress } from '@/constants/addresses';
@@ -7,11 +7,35 @@ import { env } from '@/env';
 import useSubmitTarotCards from '@/hooks/api/use-submit-cards';
 import { network } from '@/lib/solana';
 import { sendAndConfirmTransaction } from '@/lib/solana/utils';
-import { getRandomTarotCards, showTxToast } from '@/lib/utils';
+import { getRandomTarotCards } from '@/lib/utils';
+import { toast } from 'react-toastify';
+
+let toastId: string | number | null = null;
+
+const notify = () => {
+  toastId = toast('Making prediction...', {
+    autoClose: false,
+    closeOnClick: false,
+    draggable: false,
+    isLoading: true,
+    type: 'default',
+  });
+};
+
+const updateToast = () => {
+  if (toastId !== null) {
+    toast.update(toastId, {
+      render: 'Done!',
+      type: 'success',
+      autoClose: 3000,
+      isLoading: false,
+    });
+  }
+};
 
 const useMakePrediction = () => {
   const { publicKey, sendTransaction } = useWallet();
-  const { mutateAsync: submitCards, data: predictionAnswer } = useSubmitTarotCards();
+  const { mutateAsync: submitCards } = useSubmitTarotCards();
 
   return useMutation({
     async mutationFn(question: string) {
@@ -19,26 +43,28 @@ const useMakePrediction = () => {
         return;
       }
 
-      await showTxToast('Making prediction', async () => {
-        const rawTx = new Transaction();
+      notify();
 
-        rawTx.add(
-          SystemProgram.transfer({
-            fromPubkey: publicKey,
-            toPubkey: OwnerAddress[network],
-            lamports: Number(env.VITE_DEPOSIT_AMOUNT_SOL) * 1e9,
-          }),
-        );
+      const rawTx = new Transaction();
 
-        const txHash = await sendAndConfirmTransaction(publicKey, rawTx, sendTransaction);
-        console.log('txHash', txHash);
+      rawTx.add(
+        SystemProgram.transfer({
+          fromPubkey: publicKey,
+          toPubkey: OwnerAddress[network],
+          lamports: Number(env.VITE_DEPOSIT_AMOUNT_SOL) * 1e9,
+        }),
+      );
 
-        const tarots = getRandomTarotCards(txHash + publicKey.toBase58());
+      const txHash = await sendAndConfirmTransaction(publicKey, rawTx, sendTransaction);
+      console.log('txHash', txHash);
 
-        await submitCards({ tarots, hash: txHash, question });
-      });
+      const tarots = getRandomTarotCards(txHash + publicKey.toBase58());
 
-      return predictionAnswer;
+      const result = await submitCards({ tarots, hash: txHash, question });
+
+      updateToast();
+
+      return result?.response || '';
     },
 
     onError(error) {
