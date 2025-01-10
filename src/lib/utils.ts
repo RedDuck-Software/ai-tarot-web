@@ -13,12 +13,13 @@ export const shortenAddress = (address: string, fromStart = 4, fromEnd = 4) => {
   return `${address.slice(0, fromStart)}...${address.slice(-fromEnd)}`;
 };
 
-export const showTxToast = (methodName: string, promise: () => Promise<void>) =>
-  toast.promise(promise, {
+export function showTxToast<T = void>(methodName: string, promise: () => Promise<T>) {
+  return toast.promise<T>(promise, {
     pending: `${methodName} in progress`,
     success: `${methodName} completed`,
     error: `${methodName} failed`,
   });
+}
 
 export const getRandomTarotCards = (hash: string): TarotCard[] => {
   const TAROT_CARDS_AMOUNT = 78;
