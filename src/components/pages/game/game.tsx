@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { z } from 'zod';
 
 import Solana from '@/components/common/Svg/Solana.tsx';
+import { Button } from '@/components/ui/button.tsx';
 import useMakePrediction from '@/hooks/contracts/write/use-make-prediction';
 import useSendSol from '@/hooks/contracts/write/use-send-sol';
 import { cn } from '@/lib/utils';
@@ -67,8 +68,8 @@ export const GameSection = () => {
   }, [isSuccess, predictionAnswer, setValue, watch]);
 
   return (
-    <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
-      <div className="text-center font-bona-nova-sc text-[50px]">Your Future In One Bet</div>
+    <div className="font-inknut container flex flex-col gap-[20px] py-[20px]">
+      <div className="font-bona-nova-sc text-center text-[50px]">Your Future In One Bet</div>
 
       <div className="relative -z-50">
         {predictionAnswer && (
@@ -83,9 +84,9 @@ export const GameSection = () => {
 
       <div className="flex flex-row items-center justify-between">
         <div className="text-[24px]">Type your question and ask the cards</div>
-        <button className="rounded-[8px] border border-[#3A3939] bg-[#E8D5AF] px-[20px] py-[13px] text-[22px]">
+        <Button size="responsive" className="bg-[#D0C7A3] text-[22px]" variant="outline">
           Suggest question
-        </button>
+        </Button>
       </div>
 
       <div className="grid">
@@ -132,29 +133,31 @@ export const GameSection = () => {
           </div>
 
           {[0.002, 0.004, 0.02, 0.5].map((tip) => (
-            <div
+            <Button
               key={tip}
               onClick={() => {
                 setSelectedTip(selectedTip === tip ? 0 : tip);
               }}
               className={cn(
                 selectedTip === tip ? '!bg-[#9DA990]' : '',
-                'flex w-full items-center justify-center rounded-[8px] border border-[#3A3939] bg-[#D0C7A3] p-[14px] font-poppins text-[20px]',
+                'bg-[#D0C7A3] text-[20px]',
                 'cursor-pointer select-none',
               )}
             >
               {tip}
-            </div>
+            </Button>
           ))}
         </div>
 
-        <button
+        <Button
+          size="responsive"
           onClick={handleTip}
           disabled={isSolPending || !publicKey}
-          className="h-[60px] rounded-[8px] border border-[#3A3939] bg-[#9DA990] text-[22px] text-black disabled:text-[#4F5548]"
+          className="bg-[#9DA990] text-[22px]"
+          variant="outline"
         >
           Thank the Oracle
-        </button>
+        </Button>
       </div>
     </div>
   );
