@@ -36,7 +36,7 @@ const useMakePrediction = () => {
 
         return {
           tarots,
-          answer: result?.response || '',
+          answer: result?.response ?? '',
         };
       });
     },
