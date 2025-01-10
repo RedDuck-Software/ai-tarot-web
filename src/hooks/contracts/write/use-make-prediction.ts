@@ -22,11 +22,22 @@ const notify = () => {
   });
 };
 
-const updateToast = () => {
+const updateToast = (toastId: string | number | null) => {
   if (toastId !== null) {
     toast.update(toastId, {
       render: 'Done!',
       type: 'success',
+      autoClose: 3000,
+      isLoading: false,
+    });
+  }
+};
+
+const handleErrorToast = (toastId: string | number | null) => {
+  if (toastId !== null) {
+    toast.update(toastId, {
+      render: 'Error occurred!',
+      type: 'error',
       autoClose: 3000,
       isLoading: false,
     });
@@ -56,13 +67,12 @@ const useMakePrediction = () => {
       );
 
       const txHash = await sendAndConfirmTransaction(publicKey, rawTx, sendTransaction);
-      console.log('txHash', txHash);
 
       const tarots = getRandomTarotCards(txHash + publicKey.toBase58());
 
       const result = await submitCards({ tarots, hash: txHash, question });
 
-      updateToast();
+      updateToast(toastId);
 
       return {
         tarots,
@@ -72,6 +82,7 @@ const useMakePrediction = () => {
 
     onError(error) {
       console.trace(error);
+      handleErrorToast(toastId);
     },
   });
 };
