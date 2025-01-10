@@ -960,6 +960,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/bona-nova-sc@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "@fontsource/bona-nova-sc@npm:5.1.1"
+  checksum: 10c0/567432a7317a70840e22c8e26f576da86144310dcf2754902e1cb6dccea679c7f3b55a78812f3bc3a62f59dc88d98d6eb894a22cdf6005180f63ef7b7b10986a
+  languageName: node
+  linkType: hard
+
+"@fontsource/poppins@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "@fontsource/poppins@npm:5.1.1"
+  checksum: 10c0/22b73f498f5dfc6f42f9553d07f7277b04a86b7ab11bc0030bc75ab5feb46308af979fafcbe9dec66fa164955b0768920f8c43478a32f19d88b686ed1f542a63
+  languageName: node
+  linkType: hard
+
 "@fractalwagmi/popup-connection@npm:^1.0.18":
   version: 1.1.1
   resolution: "@fractalwagmi/popup-connection@npm:1.1.1"
@@ -5040,6 +5054,8 @@ __metadata:
   resolution: "ai-tarot-web@workspace:."
   dependencies:
     "@eslint/js": "npm:^9.17.0"
+    "@fontsource/bona-nova-sc": "npm:^5.1.1"
+    "@fontsource/poppins": "npm:^5.1.1"
     "@hookform/resolvers": "npm:^3.10.0"
     "@radix-ui/react-accordion": "npm:^1.2.2"
     "@radix-ui/react-dialog": "npm:^1.1.4"

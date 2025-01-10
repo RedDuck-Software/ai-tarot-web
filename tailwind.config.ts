@@ -80,7 +80,8 @@ const config = {
       },
       fontFamily: {
         inknut: ['"Inknut Antiqua"', 'serif'],
-        bonaNova: ['"Bona Nova SC"', 'serif'],
+        'bona-nova-sc': ['"Bona Nova SC"', 'serif'],
+        poppins: ['"Poppins"', 'serif'],
       },
       keyframes: {
         'accordion-down': {
