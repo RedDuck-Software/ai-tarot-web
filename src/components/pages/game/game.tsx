@@ -68,8 +68,8 @@ export const GameSection = () => {
   }, [isSuccess, predictionAnswer, setValue, watch]);
 
   return (
-    <div className="font-inknut container flex flex-col gap-[20px] py-[20px]">
-      <div className="font-bona-nova-sc text-center text-[50px]">Your Future In One Bet</div>
+    <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
+      <div className="text-center font-bona-nova-sc text-[50px]">Your Future In One Bet</div>
 
       <div className="relative -z-50">
         {predictionAnswer && (
@@ -146,7 +146,7 @@ export const GameSection = () => {
               }}
               className={cn(
                 selectedTip === tip ? '!bg-[#9DA990]' : '',
-                'font-poppins bg-[#D0C7A3] text-[20px]',
+                'bg-[#D0C7A3] font-poppins text-[20px]',
                 'cursor-pointer select-none',
               )}
             >
