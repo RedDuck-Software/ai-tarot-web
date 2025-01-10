@@ -5,7 +5,7 @@ import { GameSection } from '@/components/pages/game/game';
 export default function GamePage() {
   return (
     <>
-      {/* <GameSection /> */}
+      <GameSection />
       <AboutSection />
       <Footer />
     </>
