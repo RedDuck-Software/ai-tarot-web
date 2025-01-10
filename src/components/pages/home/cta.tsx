@@ -21,7 +21,7 @@ export const CtaBlock = () => {
         <Dot className="translate-y-4" />
         <Hand className="max-w-[100px] scale-x-[-1]" />
       </div>
-      <div className="w-full md:max-w-max lg:max-w-[400px]">
+      <div className="w-full md:max-w-max">
         <PredictFutureBtn />
       </div>
       <Sunburst className="block md:hidden" />
