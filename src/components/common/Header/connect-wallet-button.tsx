@@ -53,19 +53,19 @@ export const ConnectWalletButton = () => {
       <Popover>
         <PopoverTrigger ref={buttonRef} asChild>
           <Button
-            variant="outline"
             ref={buttonRef}
-            className="h-fit w-full px-[26px] py-[15px] text-[20px] uppercase leading-[24px]"
+            variant={'outline'}
+            className="h-fit w-full bg-customYellow px-[24px] py-[15px] font-poppins text-[22px] font-light leading-[26px] text-black"
           >
             {shortenAddress(publicKey.toBase58())}
           </Button>
         </PopoverTrigger>
-        <PopoverContent style={{ width: popoverWidth }} className="border-0">
+        <PopoverContent style={{ width: popoverWidth }} className="border-0" asChild>
           <Button
             onClick={() => void handleDisconnect()}
-            className="h-fit w-full bg-blue-600 px-[26px] py-[15px] text-[20px] uppercase leading-[24px]"
+            className="h-fit w-full bg-customRed px-[24px] py-[15px] text-[20px] font-light leading-[24px] text-white hover:bg-customRed hover:opacity-80"
           >
-            LOG OUT
+            Disconnect
           </Button>
         </PopoverContent>
       </Popover>
@@ -76,8 +76,8 @@ export const ConnectWalletButton = () => {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button
-          className="h-fit w-full px-[26px] py-[15px] text-[20px] uppercase leading-[24px]"
-          variant="outline"
+          variant={'outline'}
+          className="h-fit w-full bg-customYellow px-[24px] py-[15px] text-[22px] font-light leading-[26px] text-black"
           onClick={() => {
             setIsOpen(true);
           }}
@@ -111,7 +111,7 @@ export const ConnectWalletButton = () => {
               {filteredWallets.map((wallet) => (
                 <Button
                   key={wallet.adapter.name}
-                  className="bg-customYellow flex h-full w-full flex-col gap-[15px] p-[15px] text-[18px] leading-[27px]"
+                  className="flex h-full w-full flex-col gap-[15px] bg-customYellow p-[15px] text-[18px] leading-[27px]"
                   onClick={() => {
                     const selectedWallet = filteredWallets.find((w) => w.adapter.name === wallet.adapter.name);
 
