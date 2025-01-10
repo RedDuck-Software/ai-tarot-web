@@ -48,7 +48,7 @@ export const GameSection = () => {
 
   return (
     <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
-      <div className="font-bona-nova-sc text-center text-[50px]">Your Future In One Bet</div>
+      <div className="text-center font-bona-nova-sc text-[50px]">Your Future In One Bet</div>
       <div className="relative -z-50">
         {predictionAnswer && (
           <div className="absolute flex h-full w-full flex-row justify-evenly py-4">
