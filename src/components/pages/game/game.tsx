@@ -107,22 +107,26 @@ export const GameSection = () => {
         </div>
 
         {publicKey ? (
-          <button
+          <Button
+            size="responsive"
+            variant="outline"
             onClick={handleSubmit(onSubmit)}
             disabled={isPending}
-            className="rounded-[8px] border border-[#3A3939] bg-[#9DA990] text-[22px] text-black disabled:text-[#4F5548]"
+            className="bg-[#9DA990] text-[22px]"
           >
             Make a Forecast
-          </button>
+          </Button>
         ) : (
-          <button
+          <Button
+            size="responsive"
+            variant="outline"
             onClick={() => {
               setIsOpen(true);
             }}
-            className="rounded-[8px] border border-[#3A3939] bg-[#9DA990] text-[22px] text-black disabled:text-[#4F5548]"
+            className="bg-[#9DA990] text-[22px]"
           >
             Connect Wallet
-          </button>
+          </Button>
         )}
       </div>
 
@@ -134,13 +138,15 @@ export const GameSection = () => {
 
           {[0.002, 0.004, 0.02, 0.5].map((tip) => (
             <Button
+              size="responsive"
+              variant="outline"
               key={tip}
               onClick={() => {
                 setSelectedTip(selectedTip === tip ? 0 : tip);
               }}
               className={cn(
                 selectedTip === tip ? '!bg-[#9DA990]' : '',
-                'bg-[#D0C7A3] text-[20px]',
+                'font-poppins bg-[#D0C7A3] text-[20px]',
                 'cursor-pointer select-none',
               )}
             >
@@ -151,10 +157,10 @@ export const GameSection = () => {
 
         <Button
           size="responsive"
+          variant="outline"
           onClick={handleTip}
           disabled={isSolPending || !publicKey}
           className="bg-[#9DA990] text-[22px]"
-          variant="outline"
         >
           Thank the Oracle
         </Button>
