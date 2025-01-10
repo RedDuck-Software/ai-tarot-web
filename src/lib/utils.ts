@@ -23,12 +23,12 @@ export const showTxToast = (methodName: string, promise: () => Promise<void>) =>
 export const getRandomTarotCards = (hash: string): TarotCard[] => {
   const TAROT_CARDS_AMOUNT = 78;
 
-  const splitedHash = splitStringIntoEqualParts(hash, Math.floor(hash.length / 3));
+  const splittedHash = splitStringIntoEqualParts(hash, Math.floor(hash.length / 3));
 
   const tarotIds: number[] = [];
 
   while (tarotIds.length < 3) {
-    let tarotId = calculateByteSum(splitedHash[tarotIds.length]) % TAROT_CARDS_AMOUNT;
+    let tarotId = calculateByteSum(splittedHash[tarotIds.length]) % TAROT_CARDS_AMOUNT;
 
     while (tarotIds.includes(tarotId)) {
       tarotId = (tarotId + 1) % TAROT_CARDS_AMOUNT;
@@ -37,7 +37,7 @@ export const getRandomTarotCards = (hash: string): TarotCard[] => {
     tarotIds.push(tarotId);
   }
 
-  const isReverted = splitedHash
+  const isReverted = splittedHash
     .map((part) => calculateByteSum(part.slice(0, 3)))
     .map((sum) => sum % 7 === 0)
     .slice(0, 3);
