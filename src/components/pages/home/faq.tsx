@@ -17,7 +17,7 @@ export const Faq = () => {
           Frequently Asked Questions
         </p>
 
-        <Accordion type="single" defaultValue="item-0">
+        <Accordion type="single" collapsible>
           {FAQ_MOCK.map((el, i) => (
             <AccordionItem value={`item-${i}`} key={i}>
               <AccordionTrigger>{el.title}</AccordionTrigger>
