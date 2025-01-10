@@ -6,7 +6,7 @@ import { BaseComponentProps } from '@/types';
 
 export const NavMenu = ({ className }: BaseComponentProps) => {
   return (
-    <nav className={cn('flex items-center gap-5', className)}>
+    <nav className={cn('relative z-50 flex items-center gap-5', className)}>
       <a
         href={env.VITE_TWITTER_URL}
         target="_blank"

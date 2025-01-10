@@ -1,6 +1,7 @@
 import { WalletReadyState } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { PhantomWalletName, SolflareWalletName } from '@solana/wallet-adapter-wallets';
+import { Dot } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { SvgComponent } from './progress-bar';
@@ -85,16 +86,12 @@ export const ConnectWalletButton = () => {
           Connect Wallet
         </Button>
       </DialogTrigger>
-      <DialogContent>
+
+      <DialogContent className="w-fit rounded-lg bg-[#D8BA9F] !p-[20] max-md:w-[330px] md:!p-[40px]">
         {!!wallet && connecting ? (
           <div className="flex flex-col items-center justify-center gap-[30px]">
-            <img
-              src={wallet.adapter.icon}
-              alt={wallet.adapter.name}
-              className="h-[84px] w-[84px]"
-              height={84}
-              width={84}
-            />
+            <img src={wallet.adapter.icon} alt={wallet.adapter.name} className="size-[84px]" />
+
             <div className="flex flex-col items-center justify-center gap-[15px] text-center text-[20px] leading-[30px]">
               <div>Awaiting Connect Confirmation</div>
               <SvgComponent />
@@ -104,14 +101,17 @@ export const ConnectWalletButton = () => {
           <>
             <DialogHeader>
               <DialogTitle>
-                <p>Connect Wallet</p>
+                <p className="text-center font-bona-nova-sc text-[30px] font-normal leading-[36px] md:text-[40px] md:leading-[48px]">
+                  Connect Wallet
+                </p>
               </DialogTitle>
             </DialogHeader>
+
             <div className="grid grid-cols-2 gap-[20px]">
               {filteredWallets.map((wallet) => (
                 <Button
                   key={wallet.adapter.name}
-                  className="flex h-full w-full flex-col gap-[15px] bg-customYellow p-[15px] text-[18px] leading-[27px]"
+                  className="grid h-[184px] w-[133px] grid-cols-1 grid-rows-[4fr_1fr] !gap-0 overflow-hidden rounded-lg border border-black !p-0 text-[18px] leading-[27px] transition-all duration-100 hover:rotate-1 md:h-[300px] md:w-[230px]"
                   onClick={() => {
                     const selectedWallet = filteredWallets.find((w) => w.adapter.name === wallet.adapter.name);
 
@@ -124,14 +124,17 @@ export const ConnectWalletButton = () => {
                     }
                   }}
                 >
-                  <img
-                    src={wallet.adapter.icon}
-                    alt={wallet.adapter.name}
-                    className="h-[60px] w-[60px]"
-                    height={60}
-                    width={60}
-                  />
-                  {wallet.adapter.name}
+                  <div className="flex h-full w-full items-center justify-center bg-[url('/images/textures/green.png')]">
+                    <img src={wallet.adapter.icon} alt={wallet.adapter.name} className="size-[75px] md:size-[133px]" />
+                  </div>
+
+                  <div className="flex h-full w-full flex-row items-center justify-center bg-[#E8D5AF]">
+                    <Dot strokeWidth={7} />
+                    <p className="font-inknut text-[16px] leading-[19px] md:text-[24px] md:leading-[28px]">
+                      {wallet.adapter.name}
+                    </p>
+                    <Dot strokeWidth={7} />
+                  </div>
                 </Button>
               ))}
             </div>
