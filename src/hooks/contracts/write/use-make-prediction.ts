@@ -1,6 +1,7 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { SystemProgram, Transaction } from '@solana/web3.js';
 import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 import { OwnerAddress } from '@/constants/addresses';
 import { env } from '@/env';
@@ -8,7 +9,6 @@ import useSubmitTarotCards from '@/hooks/api/use-submit-cards';
 import { network } from '@/lib/solana';
 import { sendAndConfirmTransaction } from '@/lib/solana/utils';
 import { getRandomTarotCards } from '@/lib/utils';
-import { toast } from 'react-toastify';
 
 let toastId: string | number | null = null;
 
@@ -64,7 +64,7 @@ const useMakePrediction = () => {
 
       updateToast();
 
-      return result?.response || '';
+      return result?.response ?? '';
     },
 
     onError(error) {

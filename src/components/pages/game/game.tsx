@@ -2,11 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-
 import { z } from 'zod';
 
-import useMakePrediction from '@/hooks/contracts/write/use-make-prediction';
 import Solana from '@/components/common/Svg/Solana.tsx';
+import useMakePrediction from '@/hooks/contracts/write/use-make-prediction';
 import { useWalletModalStore } from '@/store/wallet-modal.tsx';
 
 const TarotRequestSchema = z.object({
@@ -42,8 +41,8 @@ export const GameSection = () => {
   }, [isSuccess, predictionAnswer, setValue, watch]);
 
   return (
-    <div className="font-inknut container flex flex-col gap-[20px] py-[20px]">
-      <div className="font-bona-nova-sc text-center text-[50px]">Your Future In One Bet</div>
+    <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
+      <div className="text-center font-bona-nova-sc text-[50px]">Your Future In One Bet</div>
       <div>
         <img src="images/tarot-game/bord.png" alt="bord" />
       </div>
@@ -75,7 +74,9 @@ export const GameSection = () => {
           </button>
         ) : (
           <button
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+              setIsOpen(true);
+            }}
             className="rounded-[8px] border border-[#3A3939] bg-[#9DA990] text-[22px] text-[#4F5548]"
           >
             Connect Wallet
