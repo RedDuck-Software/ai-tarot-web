@@ -47,17 +47,17 @@ export const GameSection = () => {
   }, [isSuccess, predictionAnswer, setValue, watch]);
 
   return (
-    <div className="font-inknut container flex flex-col gap-[20px] py-[20px]">
+    <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
       <div className="font-bona-nova-sc text-center text-[50px]">Your Future In One Bet</div>
-      <div className="relative">
+      <div className="relative -z-50">
         {predictionAnswer && (
           <div className="absolute flex h-full w-full flex-row justify-evenly py-4">
             {predictionAnswer.tarots.map((e) => {
-              return <img className="rounded-[8px]" src={`images/cards/${e.id}.jpg`} alt="card" />;
+              return <img key={e.id} className="rounded-[8px]" src={`images/cards/${e.id}.jpg`} alt="card" />;
             })}
           </div>
         )}
-        <img src="images/tarot-game/bord.png" alt="bord" />
+        <img src="images/tarot-game/bord.png" alt="bord" className="relative -z-50" />
       </div>
       <div className="flex flex-row items-center justify-between">
         <div className="text-[24px]">Type your question and ask the cards</div>
