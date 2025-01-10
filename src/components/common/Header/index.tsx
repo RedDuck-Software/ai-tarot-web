@@ -44,7 +44,7 @@ export const Header = () => {
             isMenuOpen ? 'translate-x-0' : 'translate-x-full',
           )}
         >
-          <NavMenu className="flex h-full max-w-[327px] flex-col justify-end pb-[80px]" />
+          <NavMenu className="flex h-full max-w-[327px] flex-col justify-center pb-[80px]" />
         </div>
       )}
     </header>

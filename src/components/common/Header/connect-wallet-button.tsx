@@ -55,7 +55,7 @@ export const ConnectWalletButton = () => {
           <Button
             ref={buttonRef}
             variant={'outline'}
-            className="h-fit w-full bg-customYellow px-[24px] py-[15px] text-[22px] font-light leading-[26px] text-black"
+            className="h-fit w-full bg-customYellow px-[24px] py-[15px] font-poppins text-[22px] font-light leading-[26px] text-black"
           >
             {shortenAddress(publicKey.toBase58())}
           </Button>
@@ -63,7 +63,7 @@ export const ConnectWalletButton = () => {
         <PopoverContent style={{ width: popoverWidth }} className="border-0" asChild>
           <Button
             onClick={() => void handleDisconnect()}
-            className="h-fit w-full bg-customRed px-[24px] py-[15px] text-[20px] font-light leading-[24px] text-white"
+            className="h-fit w-full bg-customRed px-[24px] py-[15px] text-[20px] font-light leading-[24px] text-white hover:bg-customRed hover:opacity-80"
           >
             Disconnect
           </Button>
