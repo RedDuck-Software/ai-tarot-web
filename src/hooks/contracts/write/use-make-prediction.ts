@@ -64,7 +64,10 @@ const useMakePrediction = () => {
 
       updateToast();
 
-      return result?.response ?? '';
+      return {
+        tarots,
+        answer: result?.response || '',
+      };
     },
 
     onError(error) {

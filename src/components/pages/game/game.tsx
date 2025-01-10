@@ -24,7 +24,13 @@ export const GameSection = () => {
   const { setIsOpen } = useWalletModalStore();
   const { mutateAsync: transfer, isSuccess, isPending, data: predictionAnswer } = useMakePrediction();
 
-  const { register, handleSubmit, watch, setValue } = useForm<TarotRequestSchemaType>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<TarotRequestSchemaType>({
     resolver: zodResolver(TarotRequestSchema),
   });
 
@@ -36,14 +42,21 @@ export const GameSection = () => {
 
   useEffect(() => {
     if (predictionAnswer) {
-      setValue('question', predictionAnswer + '\n' + watch('question'));
+      setValue('question', predictionAnswer.answer);
     }
   }, [isSuccess, predictionAnswer, setValue, watch]);
 
   return (
-    <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
-      <div className="text-center font-bona-nova-sc text-[50px]">Your Future In One Bet</div>
-      <div>
+    <div className="font-inknut container flex flex-col gap-[20px] py-[20px]">
+      <div className="font-bona-nova-sc text-center text-[50px]">Your Future In One Bet</div>
+      <div className="relative">
+        {predictionAnswer && (
+          <div className="absolute flex h-full w-full flex-row justify-evenly py-4">
+            {predictionAnswer.tarots.map((e) => {
+              return <img className="rounded-[8px]" src={`images/cards/${e.id}.jpg`} alt="card" />;
+            })}
+          </div>
+        )}
         <img src="images/tarot-game/bord.png" alt="bord" />
       </div>
       <div className="flex flex-row items-center justify-between">
@@ -52,13 +65,16 @@ export const GameSection = () => {
           Suggest question
         </button>
       </div>
-      <textarea
-        {...register('question')}
-        className="rounded-[8px] border border-[#3A3939] bg-transparent p-4 placeholder-[#3A3939]"
-        placeholder="Type your question here"
-        disabled={isPending}
-        rows={4}
-      />
+      <div className="grid">
+        <div className="text-red-700"> {errors.question?.message ? 'min 3 symbols' : '⠀'} </div>
+        <textarea
+          {...register('question')}
+          className="rounded-[8px] border border-[#3A3939] bg-transparent p-4 placeholder-[#3A3939]"
+          placeholder="Type your question here"
+          disabled={isPending}
+          rows={7}
+        />
+      </div>
       <div className="grid grid-cols-2 gap-10">
         <div className="flex flex-row items-center gap-4 rounded-[8px] border border-[#3A3939] bg-[#D0C7A3] p-[14px] text-[20px]">
           <Solana />

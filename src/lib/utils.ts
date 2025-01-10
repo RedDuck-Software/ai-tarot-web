@@ -56,11 +56,3 @@ const splitStringIntoEqualParts = (str: string, partSize: number): string[] => {
 
   return parts;
 };
-
-console.log(
-  'getRandomTarotCards',
-  getRandomTarotCards(
-    'd47bmsYwzMLqmAzmBaQ8ywtjBkx3jWNgSL71E6Mqi4ZEXHNDk9oTCgrN3B6UkiKorvc7HGFKiBwKB12mGGJV2dj' +
-      'Ai1UV9wcsBC8mACaW11sJdCL5ot8nL16pJ7oZXqoS2h5',
-  ),
-);
