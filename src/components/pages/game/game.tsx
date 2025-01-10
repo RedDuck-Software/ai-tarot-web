@@ -14,8 +14,8 @@ import { useWalletModalStore } from '@/store/wallet-modal.tsx';
 const TarotRequestSchema = z.object({
   question: z
     .string()
-    .min(3)
-    .max(1000)
+    .min(3, 'Min 3 symbols')
+    .max(1000, 'Max 1000 symbols')
     .regex(/^[a-zA-Z0-9.,!? ]+$/, 'Only English letters and numbers are allowed')
     .refine((value) => value.trim() !== '', { message: 'String cannot consist of only spaces' }),
 });
@@ -89,7 +89,7 @@ export const GameSection = () => {
       </div>
 
       <div className="grid">
-        <div className="text-red-700"> {errors.question?.message ? 'min 3 symbols' : '⠀'} </div>
+        <div className="text-red-700"> {errors.question?.message ? errors.question.message : '⠀'} </div>
         <textarea
           {...register('question')}
           className="rounded-[8px] border border-[#3A3939] bg-transparent p-4 placeholder-[#3A3939] outline-none"
