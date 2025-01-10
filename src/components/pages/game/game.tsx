@@ -20,15 +20,22 @@ const TarotRequestSchema = z.object({
     .refine((value) => value.trim() !== '', { message: 'String cannot consist of only spaces' }),
 });
 
+const DEFAULT_IMAGE = 'images/tarot-game/bord.png';
+
+const LOADING_IMAGES = ['images/tarot-game/shuffle-deck.png', 'images/tarot-game/oracle-needs-time.png'] as const;
+
 type TarotRequestSchemaType = z.infer<typeof TarotRequestSchema>;
 
 export const GameSection = () => {
   const { publicKey } = useWallet();
   const { setIsOpen } = useWalletModalStore();
   const { mutateAsync: transfer, isSuccess, isPending, data: predictionAnswer } = useMakePrediction();
-  const { mutateAsync: transferSol, isPending: isSolPending } = useSendSol();
+  const { mutateAsync: transferSol, isPending: isSolPending, isSuccess: isTipSuccess } = useSendSol();
 
   const [selectedTip, setSelectedTip] = useState<number>(0);
+  const [currentMainImage, setCurrentMainImage] = useState<string>(DEFAULT_IMAGE);
+  const [currentPendingImage, setCurrentPendingImage] = useState<number>(0);
+  const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
 
   const {
     register,
@@ -66,6 +73,42 @@ export const GameSection = () => {
     }
   }, [isSuccess, predictionAnswer, setValue, watch]);
 
+  useEffect(() => {
+    if (isPending) {
+      setCurrentMainImage(LOADING_IMAGES[currentPendingImage]);
+    }
+    if (isTipSuccess) {
+      setCurrentMainImage('images/tarot-game/thanks-oracle.png');
+
+      const timer = setTimeout(() => {
+        setCurrentMainImage(DEFAULT_IMAGE);
+      }, 5000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [isTipSuccess, isPending, currentPendingImage]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+
+    if (isPending) {
+      interval = setInterval(() => {
+        setIsFadingOut(true);
+
+        setTimeout(() => {
+          setCurrentPendingImage((prevIndex) => (prevIndex + 1) % LOADING_IMAGES.length);
+          setIsFadingOut(false);
+        }, 500);
+      }, 5000);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isPending]);
+
   return (
     <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
       <div className="text-center font-bona-nova-sc text-[50px]">Your Future In One Bet</div>
@@ -78,7 +121,15 @@ export const GameSection = () => {
             })}
           </div>
         )}
-        <img src="images/tarot-game/bord.png" alt="bord" className="relative -z-50" />
+        <img
+          src={currentMainImage}
+          alt="bord"
+          className={cn(
+            'relative -z-50 mx-auto h-auto w-auto xl:h-[600px] xl:w-full',
+            isPending && 'transition-opacity duration-500 ease-in-out',
+            isFadingOut ? 'opacity-0' : 'opacity-100',
+          )}
+        />
       </div>
 
       <div className="flex flex-row items-center justify-between">
