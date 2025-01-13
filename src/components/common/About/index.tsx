@@ -31,7 +31,7 @@ export const AboutSection = () => {
           <img src="/images/libra-card.png" alt="tarot3" />
         </div>
 
-        <Accordion type="single" defaultValue="item-0">
+        <Accordion type="single" collapsible>
           {new Array(6).fill(0).map((_, i) => (
             <AccordionItem value={`item-${i}`} key={i}>
               <AccordionTrigger>Is it accessible?</AccordionTrigger>
