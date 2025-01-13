@@ -47,6 +47,7 @@ export const GameSection = () => {
   const [currentMainImage, setCurrentMainImage] = useState<string>(DEFAULT_IMAGE);
   const [currentPendingImage, setCurrentPendingImage] = useState<number>(0);
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
+  const [showTip, setShowTip] = useState<boolean>(false);
 
   const {
     register,
@@ -82,6 +83,7 @@ export const GameSection = () => {
     if (predictionAnswer) {
       const timer = setTimeout(() => {
         setValue('question', predictionAnswer.answer);
+        setShowTip(true);
       }, 3200);
 
       return () => {
@@ -209,41 +211,43 @@ export const GameSection = () => {
         )}
       </div>
 
-      <div className="grid grid-rows-[auto_auto] gap-5 lg:grid-cols-2 lg:gap-10">
-        <div className="grid grid-cols-2 gap-[20px] md:grid-cols-5">
-          <div className="flex w-full items-center justify-center rounded-[8px] border border-[#3A3939] bg-[#D0C7A3] p-[14px] text-[20px] max-md:col-span-2">
-            <Solana />
+      {showTip && (
+        <div className="grid grid-rows-[auto_auto] gap-5 lg:grid-cols-2 lg:gap-10">
+          <div className="grid grid-cols-2 gap-[20px] md:grid-cols-5">
+            <div className="flex w-full items-center justify-center rounded-[8px] border border-[#3A3939] bg-[#D0C7A3] p-[14px] text-[20px] max-md:col-span-2">
+              <Solana />
+            </div>
+
+            {[0.002, 0.004, 0.02, 0.5].map((tip) => (
+              <Button
+                size="responsive"
+                variant="outline"
+                key={tip}
+                onClick={() => {
+                  setSelectedTip(selectedTip === tip ? 0 : tip);
+                }}
+                className={cn(
+                  selectedTip === tip ? '!bg-[#9DA990]' : '',
+                  'bg-[#D0C7A3] font-poppins text-[20px]',
+                  'cursor-pointer select-none',
+                )}
+              >
+                {tip}
+              </Button>
+            ))}
           </div>
 
-          {[0.002, 0.004, 0.02, 0.5].map((tip) => (
-            <Button
-              size="responsive"
-              variant="outline"
-              key={tip}
-              onClick={() => {
-                setSelectedTip(selectedTip === tip ? 0 : tip);
-              }}
-              className={cn(
-                selectedTip === tip ? '!bg-[#9DA990]' : '',
-                'bg-[#D0C7A3] font-poppins text-[20px]',
-                'cursor-pointer select-none',
-              )}
-            >
-              {tip}
-            </Button>
-          ))}
+          <Button
+            size="responsive"
+            variant="outline"
+            onClick={handleTip}
+            disabled={isSolPending || !publicKey}
+            className="bg-[#9DA990] text-[22px]"
+          >
+            Thank the Oracle
+          </Button>
         </div>
-
-        <Button
-          size="responsive"
-          variant="outline"
-          onClick={handleTip}
-          disabled={isSolPending || !publicKey}
-          className="bg-[#9DA990] text-[22px]"
-        >
-          Thank the Oracle
-        </Button>
-      </div>
+      )}
     </div>
   );
 };
