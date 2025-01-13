@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { BaseTooltip } from '@/components/common/BaseTooltip';
 import Solana from '@/components/common/Svg/Solana.tsx';
 import { Button } from '@/components/ui/button.tsx';
+import { env } from '@/env';
 import useMakePrediction from '@/hooks/contracts/write/use-make-prediction';
 import useSendSol from '@/hooks/contracts/write/use-send-sol';
 import { cn } from '@/lib/utils';
@@ -23,8 +24,11 @@ const TarotRequestSchema = z.object({
 });
 
 const DEFAULT_IMAGE = 'images/tarot-game/bord.png';
+const SHUFFLE_DECK = 'images/tarot-game/shuffle-deck.png';
+const ORACLE_NEEDS_TIME = 'images/tarot-game/oracle-needs-time.png';
+const THANKS_ORACLE = 'images/tarot-game/thanks-oracle.png';
 
-const LOADING_IMAGES = ['images/tarot-game/shuffle-deck.png', 'images/tarot-game/oracle-needs-time.png'] as const;
+const LOADING_IMAGES = [SHUFFLE_DECK, ORACLE_NEEDS_TIME] as const;
 
 type TarotRequestSchemaType = z.infer<typeof TarotRequestSchema>;
 
@@ -76,11 +80,8 @@ export const GameSection = () => {
   }, [isSuccess, predictionAnswer, setValue, watch]);
 
   useEffect(() => {
-    if (isPending) {
-      setCurrentMainImage(LOADING_IMAGES[currentPendingImage]);
-    }
     if (isTipSuccess) {
-      setCurrentMainImage('images/tarot-game/thanks-oracle.png');
+      setCurrentMainImage(THANKS_ORACLE);
 
       const timer = setTimeout(() => {
         setCurrentMainImage(DEFAULT_IMAGE);
@@ -90,7 +91,7 @@ export const GameSection = () => {
         clearTimeout(timer);
       };
     }
-  }, [isTipSuccess, isPending, currentPendingImage]);
+  }, [isTipSuccess]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -104,12 +105,15 @@ export const GameSection = () => {
           setIsFadingOut(false);
         }, 500);
       }, 5000);
+      setCurrentMainImage(LOADING_IMAGES[currentPendingImage]);
+    } else {
+      setCurrentMainImage(DEFAULT_IMAGE);
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPending]);
+  }, [isPending, currentPendingImage]);
 
   return (
     <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
@@ -117,7 +121,7 @@ export const GameSection = () => {
 
       <div className="w-[90vw] overflow-x-auto sm:w-auto">
         <div className="relative -z-50 h-[444px] w-[888px] sm:h-auto sm:w-auto">
-          {predictionAnswer && (
+          {predictionAnswer && currentMainImage === DEFAULT_IMAGE && (
             <div className="absolute flex h-[93%] w-full flex-row justify-around py-4 sm:h-full sm:justify-evenly">
               {predictionAnswer.tarots.map((e) => {
                 return (
@@ -131,7 +135,15 @@ export const GameSection = () => {
               })}
             </div>
           )}
-          <img src="images/tarot-game/bord.png" alt="bord" className="relative -z-50" />
+          <img
+            src={currentMainImage}
+            alt="bord"
+            className={cn(
+              'relative -z-50 mx-auto h-auto max-h-[484px] w-auto',
+              isPending && 'transition-opacity duration-500 ease-in-out',
+              isFadingOut ? 'opacity-0' : 'opacity-100',
+            )}
+          />
         </div>
       </div>
 
@@ -158,7 +170,7 @@ export const GameSection = () => {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-10">
         <div className="flex flex-row items-center gap-4 rounded-[8px] border border-[#3A3939] bg-[#D0C7A3] p-[14px] text-[20px]">
           <Solana />
-          <div className="font-poppins">0.002 SOL</div>
+          <div className="font-poppins">{env.VITE_DEPOSIT_AMOUNT_SOL} SOL</div>
         </div>
 
         {publicKey ? (
