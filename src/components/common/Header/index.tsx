@@ -20,8 +20,15 @@ export const Header = () => {
 
   return (
     <header className="max-h-[69px] border-b border-customBlack bg-[url('/images/textures/sand.png')] py-[10px] md:max-h-fit md:py-[20px]">
-      <div className="mx-auto flex w-full max-w-[90%] items-center justify-between bg-repeat">
-        <Link to={routes.HOME}>
+      <div className="mx-auto flex w-full max-w-[1688px] items-center justify-between bg-repeat px-6">
+        <Link
+          to={routes.HOME}
+          onClick={() => {
+            if (isMenuOpen) {
+              handleModalOpen();
+            }
+          }}
+        >
           <span className="text-[25px] leading-[30px] md:text-[35px] md:leading-[42px]">Tarotsol AI</span>
         </Link>
         <NavMenu className="hidden md:flex" />

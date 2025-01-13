@@ -7,7 +7,7 @@ const config = {
       center: true,
       padding: '16px',
       screens: {
-        '2xl': '1360px',
+        '2xl': '1040px',
       },
     },
     extend: {
@@ -100,7 +100,7 @@ const config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'tarot-line-scroll': 'tarotLineScroll 60s linear infinite',
+        'tarot-line-scroll': 'tarotLineScroll 80s linear infinite',
       },
     },
   },
