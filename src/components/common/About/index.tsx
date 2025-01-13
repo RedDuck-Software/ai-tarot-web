@@ -3,7 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 export const AboutSection = () => {
   return (
     <div className="grid w-full grid-rows-[auto_auto] bg-[url('/images/textures/green.png')] bg-repeat font-inknut *:pb-[80px] *:pt-[80px] *:lg:pb-[60px] xl:grid-cols-2">
-      <div className="flex h-full min-h-full w-full flex-col justify-between border-b border-black px-[24px] lg:pl-[140px] lg:pr-[100px] xl:border-r">
+      <div className="flex h-full min-h-full w-full flex-col justify-between border-black px-[24px] lg:pl-[140px] lg:pr-[100px] xl:border-r">
         <div className="space-y-8">
           <p className="text-[40px] font-light leading-[48px] md:text-[60px] md:leading-[72px]">About Tarot</p>
           <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
