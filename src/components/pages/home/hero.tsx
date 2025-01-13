@@ -7,7 +7,6 @@ export const Hero = () => {
       <h1 className="text-center font-bona-nova-sc text-[40px] md:text-[60px]">TarotSol AI</h1>
       <div className="flex flex-col gap-6 md:flex-row md:gap-10">
         <GoToTwitterBtn />
-
         <PredictFutureBtn />
       </div>
       <img
