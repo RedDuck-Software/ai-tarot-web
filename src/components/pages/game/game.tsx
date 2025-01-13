@@ -29,6 +29,11 @@ const ORACLE_NEEDS_TIME = 'images/tarot-game/oracle-needs-time.png';
 const THANKS_ORACLE = 'images/tarot-game/thanks-oracle.png';
 
 const LOADING_IMAGES = [SHUFFLE_DECK, ORACLE_NEEDS_TIME] as const;
+const CARD_ANIMATIONS = [
+  'firstCardAppearance 1s linear forwards',
+  'secondCardAppearance 2s linear forwards',
+  'thirdCardAppearance 3s linear forwards',
+] as const;
 
 type TarotRequestSchemaType = z.infer<typeof TarotRequestSchema>;
 
@@ -75,7 +80,13 @@ export const GameSection = () => {
 
   useEffect(() => {
     if (predictionAnswer) {
-      setValue('question', predictionAnswer.answer);
+      const timer = setTimeout(() => {
+        setValue('question', predictionAnswer.answer);
+      }, 3200);
+
+      return () => {
+        clearTimeout(timer);
+      };
     }
   }, [isSuccess, predictionAnswer, setValue, watch]);
 
@@ -117,17 +128,18 @@ export const GameSection = () => {
 
   return (
     <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
-      <div className="text-center font-bona-nova-sc text-[30px] sm:text-[50px]">Your Future In One Bet</div>
+      <div className="text-center font-bona-nova-sc text-[30px] sm:text-[50px]">Your Future In One Forecast</div>
 
       <div className="w-[90vw] overflow-x-auto sm:w-auto">
         <div className="relative -z-50 h-[444px] w-[888px] sm:h-auto sm:w-auto">
           {predictionAnswer && currentMainImage === DEFAULT_IMAGE && (
             <div className="absolute flex h-[93%] w-full flex-row justify-around py-4 sm:h-full sm:justify-evenly">
-              {predictionAnswer.tarots.map((e) => {
+              {predictionAnswer.tarots.map((e, idx) => {
                 return (
                   <img
                     key={e.id}
                     className={cn('rounded-[8px]', e.reverted && 'rotate-180')}
+                    style={{ animation: CARD_ANIMATIONS[idx] }}
                     src={`images/cards/${e.id}.jpg`}
                     alt="card"
                   />
@@ -160,7 +172,7 @@ export const GameSection = () => {
         <div className="text-red-700"> {errors.question?.message ? errors.question.message : '⠀'} </div>
         <textarea
           {...register('question')}
-          className="rounded-[8px] border border-[#3A3939] bg-transparent p-4 placeholder-[#3A3939] outline-none"
+          className="min-h-[150px] rounded-[8px] border border-[#3A3939] bg-transparent p-4 placeholder-[#3A3939] outline-none"
           placeholder="Type your question here"
           disabled={isPending}
           rows={7}

@@ -50,3 +50,36 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes firstCardAppearance {
+  0% {
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes secondCardAppearance {
+  0% {
+    transform: translateY(-180%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes thirdCardAppearance {
+  0% {
+    transform: translateY(-300%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
