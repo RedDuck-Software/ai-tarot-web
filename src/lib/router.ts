@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router';
 
 import { DefaultLayout } from '@/layouts/default-layout';
+import { MainLayout } from '@/layouts/main-layout';
 
 export const routes = {
   HOME: '/',
@@ -10,7 +11,7 @@ export const routes = {
 
 export const router = createBrowserRouter([
   {
-    Component: DefaultLayout,
+    Component: MainLayout,
     children: [
       {
         path: routes.HOME,
@@ -19,6 +20,15 @@ export const router = createBrowserRouter([
       {
         path: routes.GAME,
         Component: lazy(() => import('@/pages/game-page')),
+      },
+    ],
+  },
+  {
+    Component: DefaultLayout,
+    children: [
+      {
+        path: '*',
+        Component: lazy(() => import('@/pages/not-found')),
       },
     ],
   },
