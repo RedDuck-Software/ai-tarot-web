@@ -45,6 +45,28 @@ body {
   }
 }
 
+@keyframes rotate-div-rev {
+  0% {
+    transform: rotate(0deg);
+    background-position: 0% 50%;
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+.loader-spinner {
+  animation: rotate-div-rev 2.5s linear infinite;
+  background-image: conic-gradient(
+    from 0 at 50% 50%,
+    #621421 0deg,
+    #3a3939 144deg,
+    #9da990 288deg,
+    #d4c098 360deg,
+    #b09256 360deg
+  );
+}
+
 @layer base {
   body {
     @apply bg-background text-foreground;
