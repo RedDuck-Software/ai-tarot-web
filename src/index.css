@@ -45,16 +45,6 @@ body {
   }
 }
 
-@keyframes rotate-div-rev {
-  0% {
-    transform: rotate(0deg);
-    background-position: 0% 50%;
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
-}
-
 .loader-spinner {
   animation: rotate-div-rev 2.5s linear infinite;
   background-image: conic-gradient(
@@ -103,5 +93,15 @@ body {
   100% {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@keyframes rotate-div-rev {
+  0% {
+    transform: rotate(0deg);
+    background-position: 0% 50%;
+  }
+  100% {
+    transform: rotate(-360deg);
   }
 }
