@@ -82,7 +82,8 @@ export const GameSection = () => {
   useEffect(() => {
     if (predictionAnswer) {
       const timer = setTimeout(() => {
-        setValue('question', predictionAnswer.answer);
+        const formatted = predictionAnswer.answer.replace('*', '');
+        setValue('question', formatted);
         setShowTip(true);
       }, 3200);
 
