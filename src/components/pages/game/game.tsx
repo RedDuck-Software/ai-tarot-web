@@ -48,6 +48,7 @@ export const GameSection = () => {
   const [currentPendingImage, setCurrentPendingImage] = useState<number>(0);
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
   const [showTip, setShowTip] = useState<boolean>(false);
+  const [isRetry, setRetry] = useState(false);
 
   const {
     register,
@@ -84,6 +85,7 @@ export const GameSection = () => {
       const timer = setTimeout(() => {
         setValue('question', predictionAnswer.answer);
         setShowTip(true);
+        setRetry(true);
       }, 3200);
 
       return () => {
@@ -191,11 +193,17 @@ export const GameSection = () => {
           <Button
             size="responsive"
             variant="outline"
-            onClick={handleSubmit(onSubmit)}
+            onClick={
+              isRetry
+                ? () => {
+                    window.location.reload();
+                  }
+                : handleSubmit(onSubmit)
+            }
             disabled={isPending}
             className="bg-[#9DA990] text-[22px]"
           >
-            Make a Forecast
+            {isRetry ? 'Make a new Forecast' : 'Make a Forecast'}
           </Button>
         ) : (
           <Button
