@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 
+import { BaseTooltip } from '@/components/common/BaseTooltip';
 import Solana from '@/components/common/Svg/Solana.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import useMakePrediction from '@/hooks/contracts/write/use-make-prediction';
@@ -112,32 +113,35 @@ export const GameSection = () => {
 
   return (
     <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
-      <div className="text-center font-bona-nova-sc text-[50px]">Your Future In One Bet</div>
+      <div className="text-center font-bona-nova-sc text-[30px] sm:text-[50px]">Your Future In One Bet</div>
 
-      <div className="relative -z-50">
-        {predictionAnswer && (
-          <div className="absolute flex h-full w-full flex-row justify-evenly py-4">
-            {predictionAnswer.tarots.map((e) => {
-              return <img key={e.id} className="rounded-[8px]" src={`images/cards/${e.id}.jpg`} alt="card" />;
-            })}
-          </div>
-        )}
-        <img
-          src={currentMainImage}
-          alt="bord"
-          className={cn(
-            'relative -z-50 mx-auto h-auto w-auto xl:h-[600px] xl:w-full',
-            isPending && 'transition-opacity duration-500 ease-in-out',
-            isFadingOut ? 'opacity-0' : 'opacity-100',
+      <div className="w-[90vw] overflow-x-auto sm:w-auto">
+        <div className="relative -z-50 h-[444px] w-[888px] sm:h-auto sm:w-auto">
+          {predictionAnswer && (
+            <div className="absolute flex h-[93%] w-full flex-row justify-around py-4 sm:h-full sm:justify-evenly">
+              {predictionAnswer.tarots.map((e) => {
+                return (
+                  <img
+                    key={e.id}
+                    className={cn('rounded-[8px]', e.reverted && 'rotate-180')}
+                    src={`images/cards/${e.id}.jpg`}
+                    alt="card"
+                  />
+                );
+              })}
+            </div>
           )}
-        />
+          <img src="images/tarot-game/bord.png" alt="bord" className="relative -z-50" />
+        </div>
       </div>
 
-      <div className="flex flex-row items-center justify-between">
-        <div className="text-[24px]">Type your question and ask the cards</div>
-        <Button size="responsive" className="bg-[#D0C7A3] text-[22px]" variant="outline">
-          Suggest question
-        </Button>
+      <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+        <div className="text-center text-[24px]">Type your question and ask the cards</div>
+        <BaseTooltip content="COMING SOON">
+          <Button size="responsive" className="bg-[#D0C7A3] text-[22px]" variant="outline">
+            Suggest question
+          </Button>
+        </BaseTooltip>
       </div>
 
       <div className="grid">
@@ -151,7 +155,7 @@ export const GameSection = () => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-10">
         <div className="flex flex-row items-center gap-4 rounded-[8px] border border-[#3A3939] bg-[#D0C7A3] p-[14px] text-[20px]">
           <Solana />
           <div className="font-poppins">0.002 SOL</div>

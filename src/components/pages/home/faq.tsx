@@ -11,8 +11,8 @@ const FAQ_MOCK = [
 
 export const Faq = () => {
   return (
-    <div className="grid w-full grid-rows-[auto_auto] bg-[url('/images/textures/green.png')] bg-repeat pt-[80px] font-inknut *:pb-[80px] *:lg:pb-[140px] xl:grid-cols-2">
-      <div className="w-full space-y-8 px-[24px] lg:pl-[100px] lg:pr-[140px] xl:border-r">
+    <div className="grid w-full grid-rows-[auto_auto] bg-[url('/images/textures/green.png')] bg-repeat font-inknut *:pb-[80px] *:lg:pb-[140px] xl:grid-cols-2">
+      <div className="w-full space-y-8 border-black px-[24px] pt-[80px] lg:pl-[100px] lg:pr-[140px] xl:border-r">
         <p className="text-[40px] font-light leading-[48px] md:text-[60px] md:leading-[72px]">
           Frequently Asked Questions
         </p>
@@ -26,7 +26,7 @@ export const Faq = () => {
           ))}
         </Accordion>
       </div>
-      <div className="flex h-full min-h-full w-full flex-col justify-between border-b border-black px-[24px] lg:pl-[140px] lg:pr-[80px]">
+      <div className="flex h-full min-h-full w-full flex-col justify-between border-black px-[24px] pt-[80px] lg:pl-[140px] lg:pr-[80px]">
         <div className="space-y-8">
           <p className="text-[40px] font-light leading-[48px] max-sm:max-w-[327px] md:text-[60px] md:leading-[72px]">
             Horoscope on Twitter for every day
