@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 
-import { Loader } from '@/components/common/Loader';
+import { FullPageLoader } from '@/components/common/Loader';
 import { QueryProvider } from '@/providers/query-provider';
 import { RouterProvider } from '@/providers/router-provider';
 import { SolanaProvider } from '@/providers/solana-provider';
@@ -14,7 +14,7 @@ function App() {
   return (
     <SolanaProvider>
       <QueryProvider>
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={<FullPageLoader />}>
           <RouterProvider />
           <ToastContainer position="bottom-left" />
         </Suspense>
