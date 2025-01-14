@@ -19,7 +19,7 @@ const TarotRequestSchema = z.object({
     .string()
     .min(3, 'Min 3 symbols')
     .max(1000, 'Max 1000 symbols')
-    .regex(/^[a-zA-Z0-9.,!? ]+$/, 'Only English letters and numbers are allowed')
+    .regex(/^[a-zA-Z0-9.,!?-\s]+$/, 'Only English letters and numbers are allowed')
     .refine((value) => value.trim() !== '', { message: 'String cannot consist of only spaces' }),
 });
 
@@ -62,8 +62,7 @@ export const GameSection = () => {
 
   const onSubmit: SubmitHandler<TarotRequestSchemaType> = async (data, e) => {
     e?.preventDefault();
-    console.log('SubmitHandler data', data);
-    await transfer(watch('question').trim());
+    await transfer(data.question.trim());
   };
 
   const handleTip = async () => {
@@ -132,6 +131,22 @@ export const GameSection = () => {
     };
   }, [isPending, currentPendingImage]);
 
+  useEffect(() => {
+    if (!showTip) {
+      return;
+    }
+
+    const handler = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+    };
+
+    window.addEventListener('beforeunload', handler);
+
+    return () => {
+      window.removeEventListener('beforeunload', handler);
+    };
+  }, [showTip]);
+
   return (
     <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
       <div className="text-center font-bona-nova-sc text-[30px] sm:text-[50px]">Your Future In One Forecast</div>
@@ -174,13 +189,13 @@ export const GameSection = () => {
         </BaseTooltip>
       </div>
 
-      <div className="grid">
+      <div className="grid overflow-hidden">
         <div className="text-red-700"> {errors.question?.message ? errors.question.message : '⠀'} </div>
         <textarea
           {...register('question')}
           className="min-h-[150px] rounded-[8px] border border-[#3A3939] bg-transparent p-4 placeholder-[#3A3939] outline-none"
           placeholder="Type your question here"
-          disabled={isPending}
+          disabled={isPending || showTip}
           rows={7}
         />
       </div>
@@ -198,7 +213,10 @@ export const GameSection = () => {
             onClick={
               isRetry
                 ? () => {
-                    window.location.reload();
+                    toast.info('To make a new forecast, please reload the page');
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 10);
                   }
                 : handleSubmit(onSubmit)
             }

@@ -1,4 +1,47 @@
+import { useLocation } from 'react-router';
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { routes } from '@/lib/router';
+
+const INSTRUCTIONS = [
+  {
+    subtitle: 'Connect your wallet:',
+    description: 'Use a Solana-compatible wallet, Phantom or Solflare, to connect to the platform',
+  },
+  {
+    subtitle: 'Enter your question:',
+    description: 'Type in the question you want guidance on',
+  },
+  {
+    subtitle: 'Confirm and Sign:',
+    description: 'Review your details, confirm the transaction, and sign it in your wallet',
+  },
+  {
+    subtitle: 'Wait for results:',
+    description: (
+      <>
+        Once the payment is complete, the page will load your results <br />
+        <p className="mt-2">
+          <span className="font-bold">IMPORTANT:</span> DO NOT refresh the page if you’ve made a payment but haven’t
+          received the result yet. Wait until the process is complete
+        </p>
+      </>
+    ),
+  },
+  {
+    subtitle: 'View your results:',
+    description: 'Your personalized Tarot reading will appear on the page',
+  },
+  {
+    subtitle: 'Ask another question:',
+    description: (
+      <p>
+        To start a new session, click &quot;<span className="font-bold">Make a New Forecast</span>&quot; or refresh the
+        page
+      </p>
+    ),
+  },
+];
 
 const rules = [
   {
@@ -127,50 +170,15 @@ const rules = [
   },
 ];
 
+const routesWhereAvoidAbout: string[] = [routes.GAME];
+
 export const AboutSection = () => {
+  const { pathname } = useLocation();
+
   return (
     <div className="grid w-full grid-rows-[auto_auto] bg-[url('/images/textures/green.png')] bg-repeat font-inknut *:pb-[80px] *:pt-[80px] *:lg:pb-[60px] xl:grid-cols-2">
       <div className="flex h-full min-h-full w-full flex-col justify-between border-black px-[24px] lg:pl-[140px] lg:pr-[100px] xl:border-r">
-        <div className="space-y-8">
-          <p className="text-[40px] font-light leading-[48px] md:text-[60px] md:leading-[72px]">About Tarot</p>
-          <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
-            The standard Tarot deck consists of 78 cards divided into two main categories:
-          </p>
-          <ul className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
-            <li>
-              Major Arcana (22 cards) — representing major life lessons, significant events, and profound questions.
-            </li>
-            <br />
-            <li>
-              Minor Arcana (56 cards) — reflecting everyday situations, emotions, and actions, divided into four suits:
-              Wands, Cups, Swords, and Pentacles.
-            </li>
-          </ul>
-
-          <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
-            Each card has an upright and reversed meaning. A reversed card can dramatically change the interpretation or
-            offer additional nuances.{' '}
-          </p>
-
-          <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
-            TarotSol AI combines traditional Tarot reading techniques with artificial intelligence and blockchain to
-            provide personalized insights based on your questions.
-          </p>
-
-          <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
-            We blend the ancient art of numerology with modern AI and blockchain technologies to provide personalized
-            Tarot reading, using your unique transaction ID and wallet address to generate a one-of-a-kind numerological
-            signature that selects your cards, while our AI Oracle interprets them to provide clear and insightful
-            guidance.
-          </p>
-
-          <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
-            The card selection process within TarotSol is not just random generation like in other products but carries
-            a kind of &#34;fateful&#34; significance. The transaction hash is assigned to you by the blockchain itself,
-            as is your wallet&#39;s public address — making the outcome entirely beyond anyone&#39;s influence. The
-            blockchain weaves the threads of fate.
-          </p>
-        </div>
+        {routesWhereAvoidAbout.includes(pathname) ? <HowToUseBlock /> : <AboutBlock />}
 
         <img
           src="/images/sun.png"
@@ -207,3 +215,55 @@ export const AboutSection = () => {
     </div>
   );
 };
+
+const AboutBlock = () => (
+  <div className="space-y-8">
+    <p className="text-[40px] font-light leading-[48px] md:text-[60px] md:leading-[72px]">About Tarot</p>
+    <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
+      The standard Tarot deck consists of 78 cards divided into two main categories:
+    </p>
+    <ul className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
+      <li>Major Arcana (22 cards) — representing major life lessons, significant events, and profound questions.</li>
+      <br />
+      <li>
+        Minor Arcana (56 cards) — reflecting everyday situations, emotions, and actions, divided into four suits: Wands,
+        Cups, Swords, and Pentacles.
+      </li>
+    </ul>
+
+    <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
+      Each card has an upright and reversed meaning. A reversed card can dramatically change the interpretation or offer
+      additional nuances.{' '}
+    </p>
+
+    <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
+      TarotSol AI combines traditional Tarot reading techniques with artificial intelligence and blockchain to provide
+      personalized insights based on your questions.
+    </p>
+
+    <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
+      We blend the ancient art of numerology with modern AI and blockchain technologies to provide personalized Tarot
+      reading, using your unique transaction ID and wallet address to generate a one-of-a-kind numerological signature
+      that selects your cards, while our AI Oracle interprets them to provide clear and insightful guidance.
+    </p>
+
+    <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]">
+      The card selection process within TarotSol is not just random generation like in other products but carries a kind
+      of &#34;fateful&#34; significance. The transaction hash is assigned to you by the blockchain itself, as is your
+      wallet&#39;s public address — making the outcome entirely beyond anyone&#39;s influence. The blockchain weaves the
+      threads of fate.
+    </p>
+  </div>
+);
+
+const HowToUseBlock = () => (
+  <div className="space-y-8">
+    <p className="text-[40px] font-light leading-[48px] md:text-[60px] md:leading-[72px]">How to Use the Product</p>
+
+    {INSTRUCTIONS.map((e, idx) => (
+      <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]" key={idx}>
+        <span className="font-bold">{e.subtitle}</span> {e.description}
+      </p>
+    ))}
+  </div>
+);
