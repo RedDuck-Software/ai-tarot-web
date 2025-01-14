@@ -19,7 +19,7 @@ const TarotRequestSchema = z.object({
     .string()
     .min(3, 'Min 3 symbols')
     .max(1000, 'Max 1000 symbols')
-    .regex(/^[a-zA-Z0-9.,!?-\s]+$/, 'Only English letters and numbers are allowed')
+    // .regex(/^[a-zA-Z0-9.,!?-\s]+$/, 'Only English letters and numbers are allowed')
     .refine((value) => value.trim() !== '', { message: 'String cannot consist of only spaces' }),
 });
 
@@ -49,6 +49,7 @@ export const GameSection = () => {
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
   const [showTip, setShowTip] = useState<boolean>(false);
   const [isRetry, setRetry] = useState(false);
+  const [dontReload, setDontReload] = useState(false);
 
   const {
     register,
@@ -140,12 +141,17 @@ export const GameSection = () => {
       event.preventDefault();
     };
 
+    if (dontReload) {
+      window.removeEventListener('beforeunload', handler);
+      return;
+    }
+
     window.addEventListener('beforeunload', handler);
 
     return () => {
       window.removeEventListener('beforeunload', handler);
     };
-  }, [showTip]);
+  }, [showTip, dontReload]);
 
   return (
     <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
@@ -213,7 +219,7 @@ export const GameSection = () => {
             onClick={
               isRetry
                 ? () => {
-                    toast.info('To make a new forecast, please reload the page');
+                    setDontReload(true);
                     setTimeout(() => {
                       window.location.reload();
                     }, 10);
