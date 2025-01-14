@@ -40,7 +40,7 @@ export const getRandomTarotCards = (hash: string): TarotCard[] => {
 
   const isReverted = splittedHash
     .map((part) => calculateByteSum(part.slice(0, 3)))
-    .map((sum) => sum % 7 === 0)
+    .map((sum) => sum % 50 === 0)
     .slice(0, 3);
 
   return tarotIds.map((tarot, idx) => ({ id: tarot, reverted: isReverted[idx] }));

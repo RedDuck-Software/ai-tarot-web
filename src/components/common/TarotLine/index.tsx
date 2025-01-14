@@ -9,7 +9,7 @@ export const TarotLine = ({ className, words }: BaseComponentProps<{ words: stri
   return (
     <div
       className={cn(
-        "flex h-[92px] w-full flex-row items-center overflow-hidden border-b border-customBlack bg-[url('/images/textures/sand.png')] bg-repeat",
+        "flex h-[92px] w-full flex-row items-center overflow-hidden border-b border-customBlack bg-[url('/images/textures/sand.webp')] bg-repeat",
         className,
       )}
     >

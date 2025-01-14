@@ -5,7 +5,7 @@
 body {
   min-height: 100vh;
   font-family: 'Inknut Antiqua', 'serif';
-  background: url('/images/textures/sand.png');
+  background: url('/images/textures/sand.webp');
 }
 
 @layer base {

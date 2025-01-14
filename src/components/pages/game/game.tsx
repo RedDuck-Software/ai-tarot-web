@@ -19,7 +19,7 @@ const TarotRequestSchema = z.object({
     .string()
     .min(3, 'Min 3 symbols')
     .max(1000, 'Max 1000 symbols')
-    .regex(/^[a-zA-Z0-9.,!? ]+$/, 'Only English letters and numbers are allowed')
+    .regex(/^[a-zA-Z0-9.,!?-\s]+$/, 'Only English letters and numbers are allowed')
     .refine((value) => value.trim() !== '', { message: 'String cannot consist of only spaces' }),
 });
 
@@ -62,7 +62,6 @@ export const GameSection = () => {
 
   const onSubmit: SubmitHandler<TarotRequestSchemaType> = async (data, e) => {
     e?.preventDefault();
-    console.log('SubmitHandler data', data);
     await transfer(watch('question').trim());
   };
 
@@ -85,7 +84,7 @@ export const GameSection = () => {
       const timer = setTimeout(() => {
         const formatted = predictionAnswer.answer.replaceAll('*', '');
 
-        setValue('question', formatted);
+        setValue('question', formatted as string);
         setShowTip(true);
         setRetry(true);
       }, 3200);
