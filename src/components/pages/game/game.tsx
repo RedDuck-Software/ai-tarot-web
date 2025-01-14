@@ -62,7 +62,7 @@ export const GameSection = () => {
 
   const onSubmit: SubmitHandler<TarotRequestSchemaType> = async (data, e) => {
     e?.preventDefault();
-    await transfer(watch('question').trim());
+    await transfer(data.question.trim());
   };
 
   const handleTip = async () => {
@@ -84,7 +84,7 @@ export const GameSection = () => {
       const timer = setTimeout(() => {
         const formatted = predictionAnswer.answer.replaceAll('*', '');
 
-        setValue('question', formatted as string);
+        setValue('question', formatted);
         setShowTip(true);
         setRetry(true);
       }, 3200);
