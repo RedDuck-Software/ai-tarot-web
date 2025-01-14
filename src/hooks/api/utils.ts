@@ -29,7 +29,6 @@ export const post = async <T>(
     throw new Error(response.error ?? response.statusText);
   }
 
-  console.log('response', response);
   return response.data;
 };
 

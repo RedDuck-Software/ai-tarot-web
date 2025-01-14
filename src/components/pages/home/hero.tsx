@@ -10,7 +10,7 @@ export const Hero = () => {
         <PredictFutureBtn />
       </div>
       <img
-        src="/images/landing/hero-bg.png"
+        src="/images/landing/hero-bg.webp"
         alt="bg"
         className="absolute left-1/2 top-0 -z-[20] h-full w-full -translate-x-1/2 object-cover object-center xl:object-contain"
       />

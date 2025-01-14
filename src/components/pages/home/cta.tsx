@@ -13,8 +13,10 @@ export const CtaBlock = () => {
         <Star className="-translate-y-10" />
         <Dot className="w-[16px]" />
       </div>
-      <p className="max-w-none gap-5 text-center text-[30px] md:max-w-[1113px] md:gap-[50px] md:text-[50px]">
-        Lorem ipsum dolor sit amet consectetur. Tellus auctor dignissim nulla gravida volutpat.
+      <p className="max-w-none gap-5 text-center text-[30px] md:max-w-[1200px] md:gap-[50px] md:text-[47px]">
+        Unlock the wisdom of Tarot with our innovative AI-powered platform. Our unique approach combines ancient
+        numerology and Tarot cards with cutting-edge AI and blockchain technologies to provide you with insightful
+        readings tailored to your questions
       </p>
       <div className="flex items-center gap-8 md:hidden">
         <Hand className="max-w-[100px]" />
@@ -27,14 +29,14 @@ export const CtaBlock = () => {
       <Sunburst className="block md:hidden" />
       {isMd && (
         <>
-          <Hand className="absolute left-[5%] top-[36%] hidden xl:block 2xl:left-[12%]" />
-          <Hand className="absolute right-[15%] top-1/2 hidden scale-x-[-1] xl:block" />
-          <Dot className="absolute left-[2%] top-1/2 2xl:left-[6%]" />
+          <Hand className="absolute left-[5%] top-[36%] hidden xl:block 2xl:left-[7%]" />
+          <Hand className="absolute right-[7%] top-[42%] hidden scale-x-[-1] xl:block" />
+          <Dot className="absolute left-[2%] top-1/2 2xl:left-[4%]" />
           <Dot className="absolute right-[22%] top-[15%]" />
           <Star className="absolute left-[15%] top-[15%]" />
           <Star className="absolute bottom-[15%] right-[8%]" />
-          <Sunburst className="absolute bottom-[20%] left-[25%]" />
-          <Sunburst className="absolute right-[8%] top-[60px] max-w-[51px] lg:top-[25%]" />
+          <Sunburst className="absolute bottom-[13%] left-[25%]" />
+          <Sunburst className="absolute right-[8%] top-[30px] max-w-[51px] lg:top-[13%]" />
         </>
       )}
     </div>

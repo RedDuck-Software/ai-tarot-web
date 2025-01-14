@@ -19,7 +19,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="max-h-[69px] border-b border-customBlack bg-[url('/images/textures/sand.png')] py-[10px] md:max-h-fit md:py-[20px]">
+    <header className="max-h-[69px] border-b border-customBlack bg-[url('/images/textures/sand.webp')] py-[10px] md:max-h-fit md:py-[20px]">
       <div className="mx-auto flex w-full max-w-[1688px] items-center justify-between bg-repeat px-6">
         <Link
           to={routes.HOME}
@@ -47,7 +47,7 @@ export const Header = () => {
       {!isMd && (
         <div
           className={cn(
-            "fixed inset-0 top-[69px] flex flex-col items-center bg-[url('/images/textures/sand.png')] bg-repeat p-6 pb-0 transition-transform duration-300",
+            "fixed inset-0 top-[69px] flex flex-col items-center bg-[url('/images/textures/webp.png')] bg-repeat p-6 pb-0 transition-transform duration-300",
             isMenuOpen ? 'translate-x-0' : 'translate-x-full',
           )}
         >
