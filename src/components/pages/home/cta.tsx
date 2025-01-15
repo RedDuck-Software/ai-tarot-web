@@ -13,10 +13,9 @@ export const CtaBlock = () => {
         <Star className="-translate-y-10" />
         <Dot className="w-[16px]" />
       </div>
-      <p className="max-w-none gap-5 text-center text-[30px] md:max-w-[1200px] md:gap-[50px] md:text-[47px]">
-        Unlock the wisdom of Tarot with our innovative AI-powered platform. Our unique approach combines ancient
-        numerology and Tarot cards with cutting-edge AI and blockchain technologies to provide you with insightful
-        readings tailored to your questions
+      <p className="max-w-none gap-5 text-center text-[20px] md:max-w-[1000px] md:gap-[50px] md:text-[35px] 2xl:max-w-[1200px]">
+        Our unique approach combines ancient numerology and Tarot cards with cutting-edge AI and blockchain technologies
+        to provide you with insightful readings tailored to your questions
       </p>
       <div className="flex items-center gap-8 md:hidden">
         <Hand className="max-w-[100px]" />

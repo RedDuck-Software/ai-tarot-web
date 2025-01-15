@@ -47,7 +47,7 @@ export const Header = () => {
       {!isMd && (
         <div
           className={cn(
-            "fixed inset-0 top-[69px] flex flex-col items-center bg-[url('/images/textures/webp.png')] bg-repeat p-6 pb-0 transition-transform duration-300",
+            "fixed inset-0 top-[69px] flex flex-col items-center bg-[url('/images/textures/sand.png')] bg-repeat p-6 pb-0 transition-transform duration-300",
             isMenuOpen ? 'translate-x-0' : 'translate-x-full',
           )}
         >
