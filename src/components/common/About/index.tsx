@@ -36,8 +36,8 @@ const INSTRUCTIONS = [
     subtitle: 'Ask another question:',
     description: (
       <p>
-        To start a new session, click &quot;<span className="font-bold">Make a New Forecast</span>&quot; or refresh the
-        page
+        To start a new session, click &quot;
+        <span className="font-bold">Make a New Forecast</span>&quot; or refresh the page
       </p>
     ),
   },

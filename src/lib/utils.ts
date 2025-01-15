@@ -43,7 +43,10 @@ export const getRandomTarotCards = (hash: string): TarotCard[] => {
     .map((sum) => sum % 50 === 0)
     .slice(0, 3);
 
-  return tarotIds.map((tarot, idx) => ({ id: tarot, reverted: isReverted[idx] }));
+  return tarotIds.map((tarot, idx) => ({
+    id: tarot,
+    reverted: isReverted[idx],
+  }));
 };
 
 const calculateByteSum = (str: string): number => stringToBytes(str).reduce((sum, byte) => sum + byte, 0);

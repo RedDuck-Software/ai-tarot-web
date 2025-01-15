@@ -1,3 +1,4 @@
+import { AdminBtn } from '@/components/common/AdminBtn';
 import { GoToTwitterBtn } from '@/components/common/GoToTwitterBtn';
 import { PredictFutureBtn } from '@/components/common/PredictFutureBtn';
 
@@ -8,6 +9,7 @@ export const Hero = () => {
       <div className="flex flex-col gap-6 md:flex-row md:gap-10">
         <GoToTwitterBtn />
         <PredictFutureBtn />
+        <AdminBtn />
       </div>
       <img
         src="/images/landing/hero-bg.webp"

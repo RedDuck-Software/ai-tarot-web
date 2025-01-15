@@ -7,6 +7,7 @@ import { MainLayout } from '@/layouts/main-layout';
 export const routes = {
   HOME: '/',
   GAME: '/game',
+  ADMIN: '/admin',
 } as const;
 
 export const router = createBrowserRouter([
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: routes.GAME,
         Component: lazy(() => import('@/pages/game-page')),
+      },
+      {
+        path: routes.ADMIN,
+        Component: lazy(() => import('@/pages/admin-page')),
       },
     ],
   },
