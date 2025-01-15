@@ -28,7 +28,10 @@ const FAQ_MOCK = [
     title: 'Which wallets are supported?',
     description: 'We currently support two Solana-compatible wallets: Phantom and Solflare',
   },
-  { title: 'What payment tokens can I use?', description: 'You can choose SOL for your payment.' },
+  {
+    title: 'What payment tokens can I use?',
+    description: 'You can choose SOL for your payment.',
+  },
   {
     title: 'Can I use this service anonymously?',
     description:

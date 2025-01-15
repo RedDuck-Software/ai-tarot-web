@@ -16,6 +16,10 @@ export class Fetcher {
     this._headers = headers;
   }
 
+  public setHeader(key: string, value: string) {
+    this._headers[key] = value;
+  }
+
   public async get<T>(url: string) {
     return this._processResponse<T>(
       fetch(new URL(url, this._baseURL), {

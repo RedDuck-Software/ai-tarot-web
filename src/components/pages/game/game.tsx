@@ -20,7 +20,9 @@ const TarotRequestSchema = z.object({
     .min(3, 'Min 3 symbols')
     .max(1000, 'Max 1000 symbols')
     // .regex(/^[a-zA-Z0-9.,!?-\s]+$/, 'Only English letters and numbers are allowed')
-    .refine((value) => value.trim() !== '', { message: 'String cannot consist of only spaces' }),
+    .refine((value) => value.trim() !== '', {
+      message: 'String cannot consist of only spaces',
+    }),
 });
 
 const DEFAULT_IMAGE = 'images/tarot-game/bord.png';

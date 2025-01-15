@@ -15,6 +15,7 @@ const useStatus = () => {
         id: number;
       } | null>(client, 'shutdown/status');
     },
+    refetchInterval: 10000,
   });
 };
 
