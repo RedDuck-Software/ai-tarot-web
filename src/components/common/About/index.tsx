@@ -196,9 +196,9 @@ export const AboutSection = () => {
         </p>
 
         <div className="flex w-full max-w-full flex-row justify-between overflow-x-auto *:h-[248px] *:w-[173px] max-md:gap-6 2xl:*:h-[310px] 2xl:*:w-[217px]">
-          <img src="/images/libra-card.png" alt="tarot1" />
-          <img src="/images/libra-card.png" alt="tarot2" />
-          <img src="/images/libra-card.png" alt="tarot3" />
+          <img src="/images/star-card.png" alt="tarot1" />
+          <img src="/images/moon-card.png" alt="tarot2" />
+          <img src="/images/sun-card.png" alt="tarot3" />
         </div>
 
         <Accordion type="single" collapsible>
@@ -258,7 +258,7 @@ const AboutBlock = () => (
 
 const HowToUseBlock = () => (
   <div className="space-y-8">
-    <p className="text-[40px] font-light leading-[48px] md:text-[60px] md:leading-[72px]">How to Use the Product</p>
+    <p className="text-[40px] font-light leading-[48px] md:text-[60px] md:leading-[72px]">How to Use</p>
 
     {INSTRUCTIONS.map((e, idx) => (
       <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]" key={idx}>
