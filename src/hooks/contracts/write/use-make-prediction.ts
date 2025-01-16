@@ -9,6 +9,7 @@ import useSubmitTarotCards from '@/hooks/api/use-submit-cards';
 import { network } from '@/lib/solana';
 import { sendAndConfirmTransaction } from '@/lib/solana/utils';
 import { getRandomTarotCards } from '@/lib/utils';
+import { Status, useStatusModalStore } from '@/store/status-modal';
 
 let toastId: string | number | null = null;
 
@@ -22,31 +23,10 @@ const notify = () => {
   });
 };
 
-const updateToast = (toastId: string | number | null) => {
-  if (toastId !== null) {
-    toast.update(toastId, {
-      render: 'Done!',
-      type: 'success',
-      autoClose: 3000,
-      isLoading: false,
-    });
-  }
-};
-
-const handleErrorToast = (toastId: string | number | null) => {
-  if (toastId !== null) {
-    toast.update(toastId, {
-      render: 'Error occurred!',
-      type: 'error',
-      autoClose: 3000,
-      isLoading: false,
-    });
-  }
-};
-
 const useMakePrediction = () => {
   const { publicKey, sendTransaction } = useWallet();
   const { mutateAsync: submitCards } = useSubmitTarotCards();
+  const { setStatus } = useStatusModalStore();
 
   return useMutation({
     async mutationFn(question: string) {
@@ -72,7 +52,11 @@ const useMakePrediction = () => {
 
       const result = await submitCards({ tarots, hash: txHash, question });
 
-      updateToast(toastId);
+      if (toastId) {
+        toast.dismiss(toastId);
+      }
+
+      // setStatus(Status.Success);
 
       return {
         tarots,
@@ -82,7 +66,10 @@ const useMakePrediction = () => {
 
     onError(error) {
       console.trace(error);
-      handleErrorToast(toastId);
+      setStatus(Status.Failed);
+      if (toastId) {
+        toast.dismiss(toastId);
+      }
     },
   });
 };

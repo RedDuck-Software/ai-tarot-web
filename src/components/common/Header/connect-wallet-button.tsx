@@ -10,10 +10,12 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { shortenAddress } from '@/lib/utils';
+import { Status, useStatusModalStore } from '@/store/status-modal';
 import { useWalletModalStore } from '@/store/wallet-modal';
 
 export const ConnectWalletButton = () => {
   const { isOpen, setIsOpen } = useWalletModalStore();
+  const { status, setStatus } = useStatusModalStore();
 
   const { select, wallets, publicKey, disconnect, connecting, wallet } = useWallet();
 
@@ -51,27 +53,81 @@ export const ConnectWalletButton = () => {
 
   if (publicKey) {
     return (
-      <Popover>
-        <PopoverTrigger ref={buttonRef} asChild>
-          <Button
-            ref={buttonRef}
-            variant={'outline'}
-            className="h-fit w-full bg-customYellow px-[24px] py-[15px] font-poppins text-[22px] font-light leading-[26px] text-black"
+      <>
+        <Popover>
+          <PopoverTrigger ref={buttonRef} asChild>
+            <Button
+              ref={buttonRef}
+              variant={'outline'}
+              className="h-fit w-full bg-customYellow px-[24px] py-[15px] font-poppins text-[22px] font-light leading-[26px] text-black"
+            >
+              {shortenAddress(publicKey.toBase58())}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent style={{ width: popoverWidth }} className="border-0" asChild>
+            <Button
+              onClick={() => void handleDisconnect()}
+              className="h-fit w-full bg-customRed px-[24px] py-[15px] text-[20px] font-light leading-[24px] text-white hover:bg-customRed hover:opacity-80"
+            >
+              Disconnect
+            </Button>
+          </PopoverContent>
+        </Popover>
+
+        <Dialog open={!!status} onOpenChange={onOpenChange}>
+          <DialogContent
+            className="w-fit rounded-lg bg-[#D8BA9F] !p-[20] max-md:w-[330px] md:!p-[40px]"
+            hideX={!!status}
           >
-            {shortenAddress(publicKey.toBase58())}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent style={{ width: popoverWidth }} className="border-0" asChild>
-          <Button
-            onClick={() => void handleDisconnect()}
-            className="h-fit w-full bg-customRed px-[24px] py-[15px] text-[20px] font-light leading-[24px] text-white hover:bg-customRed hover:opacity-80"
-          >
-            Disconnect
-          </Button>
-        </PopoverContent>
-      </Popover>
+            {status === Status.Success ? (
+              <div className="flex w-[75vw] flex-col items-center justify-center gap-[15px] text-center text-[20px] leading-[30px] md:w-[480px]">
+                <img
+                  src="/icons/successful.svg"
+                  alt="success"
+                  className="h-[120px] w-[93px] md:h-[180px] md:w-[140px]"
+                />
+
+                <p className="text-[22px] leading-[30px] md:text-[28px] md:leading-[39px]">Payment Successful</p>
+
+                <Button
+                  onClick={() => {
+                    setStatus(null);
+                  }}
+                  variant="secondary"
+                  size="lg"
+                  className="!h-[60px] w-full text-[22px] leading-[30px]"
+                >
+                  Close
+                </Button>
+              </div>
+            ) : (
+              <div className="flex w-[75vw] flex-col items-center justify-center gap-[15px] text-center text-[20px] leading-[30px] md:w-[480px]">
+                <img src="/icons/failed.svg" alt="failed" className="h-[120px] w-[93px] md:h-[180px] md:w-[140px]" />
+
+                <p className="text-[22px] leading-[30px] md:text-[28px] md:leading-[39px]">Oracle Response Failed</p>
+                <p className="text-[16px] leading-[22px] md:text-[18px] md:leading-[25px]">
+                  The Oracle couldn’t provide an answer at this time. <br /> Please try again.
+                </p>
+
+                <Button
+                  onClick={() => {
+                    setStatus(null);
+                  }}
+                  variant="secondary"
+                  size="lg"
+                  className="!h-[60px] w-full text-[22px] leading-[30px]"
+                >
+                  Close
+                </Button>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+      </>
     );
   }
+
+  console.log(!!status, status);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -87,7 +143,7 @@ export const ConnectWalletButton = () => {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="w-fit rounded-lg bg-[#D8BA9F] !p-[20] max-md:w-[330px] md:!p-[40px]">
+      <DialogContent className="w-fit rounded-lg bg-[#D8BA9F] !p-[20] max-md:w-[330px] md:!p-[40px]" hideX={!!status}>
         {!!wallet && connecting ? (
           <div className="flex flex-col items-center justify-center gap-[30px]">
             <img src={wallet.adapter.icon} alt={wallet.adapter.name} className="size-[84px]" />
