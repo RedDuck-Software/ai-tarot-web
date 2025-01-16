@@ -219,7 +219,7 @@ export const GameSection = () => {
         </div>
 
         {publicKey ? (
-          <BaseTooltip content={status?.isShutDown ? 'Contract is disabled' : ''}>
+          <BaseTooltip content={status?.isShutDown ? 'Oracle is taking a brake' : ''}>
             <Button
               size="responsive"
               variant="outline"
