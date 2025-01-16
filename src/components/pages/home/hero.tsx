@@ -1,15 +1,22 @@
+import { useWallet } from '@solana/wallet-adapter-react';
+
 import { AdminBtn } from '@/components/common/AdminBtn';
 import { GoToTwitterBtn } from '@/components/common/GoToTwitterBtn';
 import { PredictFutureBtn } from '@/components/common/PredictFutureBtn';
+import { OwnerAddress } from '@/constants/addresses';
+import { network } from '@/lib/solana';
 
 export const Hero = () => {
+  const { publicKey } = useWallet();
+
   return (
     <div className="relative flex min-h-[812px] flex-col items-center justify-between pb-[52px] pt-20 md:min-h-[865px] md:pb-[72px] md:pt-20">
       <h1 className="text-center font-bona-nova-sc text-[40px] md:text-[60px]">TarotSol AI</h1>
       <div className="flex flex-col gap-6 md:flex-row md:gap-10">
         <GoToTwitterBtn />
         <PredictFutureBtn />
-        <AdminBtn />
+
+        {publicKey?.equals(OwnerAddress[network]) && <AdminBtn />}
       </div>
       <img
         src="/images/landing/hero-bg.webp"
