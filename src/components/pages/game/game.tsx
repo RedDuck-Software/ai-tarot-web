@@ -9,6 +9,7 @@ import { BaseTooltip } from '@/components/common/BaseTooltip';
 import Solana from '@/components/common/Svg/Solana.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { env } from '@/env';
+import useStatus from '@/hooks/api/use-status';
 import useMakePrediction from '@/hooks/contracts/write/use-make-prediction';
 import useSendSol from '@/hooks/contracts/write/use-send-sol';
 import { cn } from '@/lib/utils';
@@ -29,6 +30,7 @@ const DEFAULT_IMAGE = 'images/tarot-game/bord.png';
 const SHUFFLE_DECK = 'images/tarot-game/shuffle-deck.png';
 const ORACLE_NEEDS_TIME = 'images/tarot-game/oracle-needs-time.png';
 const THANKS_ORACLE = 'images/tarot-game/thanks-oracle.png';
+const SHUTDOWN = 'images/tarot-game/shutdown.png';
 
 const LOADING_IMAGES = [SHUFFLE_DECK, ORACLE_NEEDS_TIME] as const;
 const CARD_ANIMATIONS = [
@@ -41,9 +43,11 @@ type TarotRequestSchemaType = z.infer<typeof TarotRequestSchema>;
 
 export const GameSection = () => {
   const { publicKey } = useWallet();
+
   const { setIsOpen } = useWalletModalStore();
   const { mutateAsync: transfer, isSuccess, isPending, data: predictionAnswer } = useMakePrediction();
   const { mutateAsync: transferSol, isPending: isSolPending, isSuccess: isTipSuccess } = useSendSol();
+  const { data: status } = useStatus();
 
   const [selectedTip, setSelectedTip] = useState<number>(0);
   const [currentMainImage, setCurrentMainImage] = useState<string>(DEFAULT_IMAGE);
@@ -177,7 +181,7 @@ export const GameSection = () => {
             </div>
           )}
           <img
-            src={currentMainImage}
+            src={status?.isShutDown ? SHUTDOWN : currentMainImage}
             alt="bord"
             className={cn(
               'relative -z-50 mx-auto h-auto max-h-[484px] w-auto',
@@ -215,24 +219,26 @@ export const GameSection = () => {
         </div>
 
         {publicKey ? (
-          <Button
-            size="responsive"
-            variant="outline"
-            onClick={
-              isRetry
-                ? () => {
-                    setDontReload(true);
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 10);
-                  }
-                : handleSubmit(onSubmit)
-            }
-            disabled={isPending}
-            className="bg-[#9DA990] text-[22px]"
-          >
-            {isRetry ? 'Make a new Forecast' : 'Make a Forecast'}
-          </Button>
+          <BaseTooltip content={status?.isShutDown ? 'Contract is disabled' : ''}>
+            <Button
+              size="responsive"
+              variant="outline"
+              onClick={
+                isRetry
+                  ? () => {
+                      setDontReload(true);
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 10);
+                    }
+                  : handleSubmit(onSubmit)
+              }
+              disabled={isPending || status?.isShutDown}
+              className="h-full w-full bg-[#9DA990] text-[22px]"
+            >
+              {isRetry ? 'Make a new Forecast' : 'Make a Forecast'}
+            </Button>
+          </BaseTooltip>
         ) : (
           <Button
             size="responsive"
