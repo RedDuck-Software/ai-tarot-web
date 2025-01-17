@@ -10,7 +10,17 @@ const useSubmitTarotCards = () => {
   const { publicKey } = useWallet();
 
   return useMutation({
-    async mutationFn({ tarots, hash, question }: { tarots: TarotCard[]; hash: string; question: string }) {
+    async mutationFn({
+      tarots,
+      hash,
+      question,
+      address,
+    }: {
+      tarots: TarotCard[];
+      hash: string;
+      question: string;
+      address: string;
+    }) {
       if (!publicKey) {
         return;
       }
@@ -21,6 +31,7 @@ const useSubmitTarotCards = () => {
         tarots,
         hash,
         question,
+        address,
       });
     },
 
