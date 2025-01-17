@@ -252,7 +252,7 @@ export const GameSection = () => {
         )}
       </div>
 
-      {true && (
+      {showTip && (
         <div className="grid grid-rows-[auto_auto] gap-5 lg:grid-cols-2 lg:gap-10">
           <div className="grid grid-cols-2 gap-[20px] md:grid-cols-5">
             <div className="flex w-full items-center justify-center rounded-[8px] border border-[#3A3939] bg-[#D0C7A3] p-[14px] text-[20px] max-md:col-span-2">
