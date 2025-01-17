@@ -84,7 +84,7 @@ export const GameSection = () => {
       return;
     }
 
-    await showTxToast('Sending Tip to the Oracle', async () => {
+    await showTxToast('Tipping the Oracle', async () => {
       await transferCurrency({ amount: selectedTip, tokenName: currencyName });
     });
   };
