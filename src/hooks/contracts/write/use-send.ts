@@ -27,8 +27,7 @@ const useSend = () => {
       }
 
       if (tokenName === 'wSolMint') {
-        await sendSol(amount);
-        return;
+        return await sendSol(amount);
       }
 
       const { address: mint, decimals } = currencies[tokenName];

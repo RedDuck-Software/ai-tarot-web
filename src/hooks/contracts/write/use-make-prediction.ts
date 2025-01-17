@@ -39,7 +39,7 @@ const useMakePrediction = () => {
 
       notify();
 
-      const txHash = await sendCurrency({ amount: 0.4, tokenName });
+      const txHash = await sendCurrency({ amount: currencies[tokenName].defaultPrice, tokenName });
 
       if (!txHash) {
         return;
@@ -51,7 +51,7 @@ const useMakePrediction = () => {
         tarots,
         hash: txHash,
         question,
-        address: currencies.usdcMint.address.toString(),
+        address: currencies[tokenName].address.toString(),
       });
 
       if (toastId) {

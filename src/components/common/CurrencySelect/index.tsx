@@ -1,21 +1,28 @@
-import Solana from '@/components/common/Svg/Solana.tsx';
 import { Select, SelectTrigger, SelectItem, SelectValue, SelectContent } from '@/components/ui/select.tsx';
+import { currencies, TCurrencies } from '@/constants/addresses.ts';
 
-export const CurrencySelect = () => {
+interface ICurrencySelect {
+  value: string;
+  onValueChange: (value: TCurrencies) => void;
+}
+
+export const CurrencySelect = ({ value, onValueChange }: ICurrencySelect) => {
   return (
-    <Select>
-      <SelectTrigger>
+    <Select value={value} onValueChange={onValueChange}>
+      <SelectTrigger className="font-poppins">
         <SelectValue placeholder="Theme" />
       </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="light">
-          <div className="flex flex-row items-center gap-4">
-            <Solana />
-            <div>0.003</div>
-          </div>
-        </SelectItem>
-        <SelectItem value="dark">Dark</SelectItem>
-        <SelectItem value="system">System</SelectItem>
+      <SelectContent className="font-poppins">
+        {Object.values(currencies).map((e, index) => {
+          return (
+            <SelectItem key={index} value={Object.keys(currencies)[index]}>
+              <div className="flex flex-row items-center gap-4">
+                <img src={`/icons/currencies/${Object.keys(currencies)[index]}.svg`} alt="currecy" />
+                <div>{e.defaultPrice}</div>
+              </div>
+            </SelectItem>
+          );
+        })}
       </SelectContent>
     </Select>
   );
