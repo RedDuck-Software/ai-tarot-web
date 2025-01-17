@@ -1,8 +1,15 @@
-import { clsx, type ClassValue } from 'clsx';
+import {
+  ASSOCIATED_TOKEN_PROGRAM_ID,
+  createAssociatedTokenAccountInstruction,
+  TOKEN_PROGRAM_ID,
+} from '@solana/spl-token';
+import { PublicKey, TransactionInstruction } from '@solana/web3.js';
+import { type ClassValue, clsx } from 'clsx';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import { stringToBytes } from 'viem';
 
+import { connection } from '@/lib/solana';
 import { TarotCard } from '@/types/tarot';
 
 export function cn(...inputs: ClassValue[]) {
@@ -60,3 +67,27 @@ const splitStringIntoEqualParts = (str: string, partSize: number): string[] => {
 
   return parts;
 };
+
+export async function generateAssociatedTokenAccountInstruction({
+  owner,
+  payer,
+  mint,
+}: {
+  payer: PublicKey;
+  owner: PublicKey;
+  mint: PublicKey;
+}): Promise<TransactionInstruction | undefined> {
+  const associatedTokenAccount = PublicKey.findProgramAddressSync(
+    [owner.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), mint.toBuffer()],
+    ASSOCIATED_TOKEN_PROGRAM_ID,
+  );
+
+  const accountInfo = await connection.getAccountInfo(associatedTokenAccount[0]);
+
+  if (accountInfo) {
+    console.log('Associated token account already exists');
+    return undefined;
+  }
+
+  return createAssociatedTokenAccountInstruction(payer, associatedTokenAccount[0], owner, mint);
+}

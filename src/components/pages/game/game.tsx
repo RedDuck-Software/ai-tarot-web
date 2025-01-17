@@ -6,13 +6,13 @@ import { toast } from 'react-toastify';
 import { z } from 'zod';
 
 import { BaseTooltip } from '@/components/common/BaseTooltip';
-import Solana from '@/components/common/Svg/Solana.tsx';
+import { CurrencySelect } from '@/components/common/CurrencySelect';
 import { Button } from '@/components/ui/button.tsx';
-import { env } from '@/env';
+import { currencies, TCurrencies } from '@/constants/addresses.ts';
 import useStatus from '@/hooks/api/use-status';
 import useMakePrediction from '@/hooks/contracts/write/use-make-prediction';
-import useSendSol from '@/hooks/contracts/write/use-send-sol';
-import { cn } from '@/lib/utils';
+import useSend from '@/hooks/contracts/write/use-send.ts';
+import { cn, showTxToast } from '@/lib/utils';
 import { useWalletModalStore } from '@/store/wallet-modal.tsx';
 
 const TarotRequestSchema = z.object({
@@ -46,7 +46,7 @@ export const GameSection = () => {
 
   const { setIsOpen } = useWalletModalStore();
   const { mutateAsync: transfer, isSuccess, isPending, data: predictionAnswer } = useMakePrediction();
-  const { mutateAsync: transferSol, isPending: isSolPending, isSuccess: isTipSuccess } = useSendSol();
+  const { mutateAsync: transferCurrency, isPending: isSolPending, isSuccess: isTipSuccess } = useSend();
   const { data: status } = useStatus();
 
   const [selectedTip, setSelectedTip] = useState<number>(0);
@@ -56,6 +56,7 @@ export const GameSection = () => {
   const [showTip, setShowTip] = useState<boolean>(false);
   const [isRetry, setRetry] = useState(false);
   const [dontReload, setDontReload] = useState(false);
+  const [currencyName, setCurrencyName] = useState<TCurrencies>(Object.keys(currencies)[0] as TCurrencies);
 
   const {
     register,
@@ -69,7 +70,7 @@ export const GameSection = () => {
 
   const onSubmit: SubmitHandler<TarotRequestSchemaType> = async (data, e) => {
     e?.preventDefault();
-    await transfer(data.question.trim());
+    await transfer({ question: data.question.trim(), tokenName: currencyName });
   };
 
   const handleTip = async () => {
@@ -83,7 +84,9 @@ export const GameSection = () => {
       return;
     }
 
-    await transferSol(selectedTip);
+    await showTxToast('Tipping the Oracle', async () => {
+      await transferCurrency({ amount: selectedTip, tokenName: currencyName });
+    });
   };
 
   useEffect(() => {
@@ -213,11 +216,7 @@ export const GameSection = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-10">
-        <div className="flex flex-row items-center gap-4 rounded-[8px] border border-[#3A3939] bg-[#D0C7A3] p-[14px] text-[20px]">
-          <Solana />
-          <div className="font-poppins">{env.VITE_DEPOSIT_AMOUNT_SOL} SOL</div>
-        </div>
-
+        <CurrencySelect onValueChange={setCurrencyName} value={currencyName} />
         {publicKey ? (
           <BaseTooltip content={status?.isShutDown ? 'Oracle is taking a brake' : ''}>
             <Button
@@ -257,10 +256,10 @@ export const GameSection = () => {
         <div className="grid grid-rows-[auto_auto] gap-5 lg:grid-cols-2 lg:gap-10">
           <div className="grid grid-cols-2 gap-[20px] md:grid-cols-5">
             <div className="flex w-full items-center justify-center rounded-[8px] border border-[#3A3939] bg-[#D0C7A3] p-[14px] text-[20px] max-md:col-span-2">
-              <Solana />
+              <img src={`/icons/currencies/${currencyName}.svg`} alt="currecy" />
             </div>
 
-            {[0.002, 0.004, 0.02, 0.5].map((tip) => (
+            {currencies[currencyName].tips.map((tip) => (
               <Button
                 size="responsive"
                 variant="outline"

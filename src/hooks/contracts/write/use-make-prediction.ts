@@ -1,13 +1,10 @@
 import { useWallet } from '@solana/wallet-adapter-react';
-import { SystemProgram, Transaction } from '@solana/web3.js';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
-import { OwnerAddress } from '@/constants/addresses';
-import { env } from '@/env';
+import { currencies, TCurrencies } from '@/constants/addresses.ts';
 import useSubmitTarotCards from '@/hooks/api/use-submit-cards';
-import { network } from '@/lib/solana';
-import { sendAndConfirmTransaction } from '@/lib/solana/utils';
+import useSend from '@/hooks/contracts/write/use-send.ts';
 import { getRandomTarotCards } from '@/lib/utils';
 import { Status, useStatusModalStore } from '@/store/status-modal';
 
@@ -23,34 +20,39 @@ const notify = () => {
   });
 };
 
+interface IMakePrediction {
+  question: string;
+  tokenName: TCurrencies;
+}
+
 const useMakePrediction = () => {
-  const { publicKey, sendTransaction } = useWallet();
+  const { publicKey } = useWallet();
   const { mutateAsync: submitCards } = useSubmitTarotCards();
+  const { mutateAsync: sendCurrency } = useSend();
   const { setStatus } = useStatusModalStore();
 
   return useMutation({
-    async mutationFn(question: string) {
+    async mutationFn({ question, tokenName }: IMakePrediction) {
       if (!publicKey) {
         return;
       }
 
       notify();
 
-      const rawTx = new Transaction();
+      const txHash = await sendCurrency({ amount: currencies[tokenName].defaultPrice, tokenName });
 
-      rawTx.add(
-        SystemProgram.transfer({
-          fromPubkey: publicKey,
-          toPubkey: OwnerAddress[network],
-          lamports: Number(env.VITE_DEPOSIT_AMOUNT_SOL) * 1e9,
-        }),
-      );
-
-      const txHash = await sendAndConfirmTransaction(publicKey, rawTx, sendTransaction);
+      if (!txHash) {
+        return;
+      }
 
       const tarots = getRandomTarotCards(txHash + publicKey.toBase58());
 
-      const result = await submitCards({ tarots, hash: txHash, question });
+      const result = await submitCards({
+        tarots,
+        hash: txHash,
+        question,
+        address: currencies[tokenName].address.toString(),
+      });
 
       if (toastId) {
         toast.dismiss(toastId);
