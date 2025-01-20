@@ -42,7 +42,6 @@ const useSend = () => {
       const { address: mint, decimals } = currencies[tokenName];
 
       const rawTx = new Transaction();
-      console.log(1);
 
       const senderTokenAddress = await getAssociatedTokenAddress(mint, publicKey);
       const recipientTokenAddress = await getAssociatedTokenAddress(mint, recipient);

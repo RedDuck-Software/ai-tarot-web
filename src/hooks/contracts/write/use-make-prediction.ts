@@ -67,7 +67,7 @@ const useMakePrediction = () => {
     },
 
     onError(error) {
-      console.trace(error.name, error.message);
+      console.trace(error);
 
       if (toastId) {
         toast.dismiss(toastId);
