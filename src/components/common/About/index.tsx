@@ -262,7 +262,7 @@ const HowToUseBlock = () => (
 
     {INSTRUCTIONS.map((e, idx) => (
       <p className="text-[18px] font-light leading-[25px] md:text-[20px] md:leading-[28px]" key={idx}>
-        <span className="font-bold">{e.subtitle}</span> {e.description}
+        <span className="font-bold">{e.subtitle}</span> <span>{e.description}</span>
       </p>
     ))}
   </div>

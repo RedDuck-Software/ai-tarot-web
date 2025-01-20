@@ -68,10 +68,22 @@ const useMakePrediction = () => {
 
     onError(error) {
       console.trace(error);
-      setStatus(Status.Failed);
+
       if (toastId) {
         toast.dismiss(toastId);
       }
+
+      if (error.message === 'User rejected the request.') {
+        setStatus(Status.Canceled);
+        return;
+      }
+
+      if (error.message === 'Insufficient funds') {
+        setStatus(Status.InsufficientFunds);
+        return;
+      }
+
+      setStatus(Status.Failed);
     },
   });
 };

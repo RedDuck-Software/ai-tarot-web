@@ -4,6 +4,10 @@ import { PhantomWalletName, SolflareWalletName } from '@solana/wallet-adapter-wa
 import { Dot } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { BaseErrorModal } from './modals/base-error';
+import { CanceledModal } from './modals/cancelled';
+import { InsufficientFundsModal } from './modals/insufficient-funds';
+import { SuccessfulModal } from './modals/successful';
 import { SvgComponent } from './progress-bar';
 
 import { Button } from '@/components/ui/button';
@@ -15,7 +19,7 @@ import { useWalletModalStore } from '@/store/wallet-modal';
 
 export const ConnectWalletButton = () => {
   const { isOpen, setIsOpen } = useWalletModalStore();
-  const { status, setStatus } = useStatusModalStore();
+  const { status } = useStatusModalStore();
 
   const { select, wallets, publicKey, disconnect, connecting, wallet } = useWallet();
 
@@ -76,58 +80,20 @@ export const ConnectWalletButton = () => {
 
         <Dialog open={!!status} onOpenChange={onOpenChange}>
           <DialogContent
-            className="w-fit rounded-lg bg-[#D8BA9F] !p-[20] max-md:w-[330px] md:!p-[40px]"
+            className="w-fit rounded-lg border-0 bg-[#D8BA9F] !p-[20] max-sm:w-fit md:!p-[40px]"
             hideX={!!status}
           >
-            {status === Status.Success ? (
-              <div className="flex w-[75vw] flex-col items-center justify-center gap-[15px] text-center text-[20px] leading-[30px] md:w-[480px]">
-                <img
-                  src="/icons/successful.svg"
-                  alt="success"
-                  className="h-[120px] w-[93px] md:h-[180px] md:w-[140px]"
-                />
+            <DialogTitle className="hidden" />
 
-                <p className="text-[22px] leading-[30px] md:text-[28px] md:leading-[39px]">Payment Successful</p>
-
-                <Button
-                  onClick={() => {
-                    setStatus(null);
-                  }}
-                  variant="secondary"
-                  size="lg"
-                  className="!h-[60px] w-full text-[22px] leading-[30px]"
-                >
-                  Close
-                </Button>
-              </div>
-            ) : (
-              <div className="flex w-[75vw] flex-col items-center justify-center gap-[15px] text-center text-[20px] leading-[30px] md:w-[480px]">
-                <img src="/icons/failed.svg" alt="failed" className="h-[120px] w-[93px] md:h-[180px] md:w-[140px]" />
-
-                <p className="text-[22px] leading-[30px] md:text-[28px] md:leading-[39px]">Oracle Response Failed</p>
-                <p className="text-[16px] leading-[22px] md:text-[18px] md:leading-[25px]">
-                  The Oracle couldn’t provide an answer at this time. <br /> Please try again.
-                </p>
-
-                <Button
-                  onClick={() => {
-                    setStatus(null);
-                  }}
-                  variant="secondary"
-                  size="lg"
-                  className="!h-[60px] w-full text-[22px] leading-[30px]"
-                >
-                  Close
-                </Button>
-              </div>
-            )}
+            {status === Status.Success && <SuccessfulModal />}
+            {status === Status.Failed && <BaseErrorModal />}
+            {status === Status.InsufficientFunds && <InsufficientFundsModal />}
+            {status === Status.Canceled && <CanceledModal />}
           </DialogContent>
         </Dialog>
       </>
     );
   }
-
-  console.log(!!status, status);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>

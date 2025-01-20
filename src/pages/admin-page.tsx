@@ -20,7 +20,6 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (!publicKey?.equals(OwnerAddress[network])) {
-      console.log(publicKey?.toBase58(), OwnerAddress[network].toBase58());
       navigate('/');
     }
   }, [navigate, publicKey]);
