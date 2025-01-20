@@ -6,9 +6,9 @@ import { useMutation } from '@tanstack/react-query';
 import { useGetTokenAndSolBalance } from '../read/use-get-token-and-sol-balance';
 
 import { currencies, OwnerAddress, TCurrencies, wSolMint } from '@/constants/addresses';
-import useSendSol from '@/hooks/contracts/write/use-send-sol.ts';
-import { connection, network } from '@/lib/solana';
-import { sendAndConfirmTransaction } from '@/lib/solana/utils';
+import { connection, network } from '@/constants/solana';
+import useSendSol from '@/hooks/contracts/write/use-send-sol';
+import { sendAndConfirmTransaction } from '@/lib/solana-utils';
 import { generateAssociatedTokenAccountInstruction } from '@/lib/utils.ts';
 
 const recipient = new PublicKey(OwnerAddress[network]);

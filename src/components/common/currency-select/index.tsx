@@ -1,5 +1,5 @@
 import { Select, SelectTrigger, SelectItem, SelectValue, SelectContent } from '@/components/ui/select.tsx';
-import { currencies, TCurrencies } from '@/constants/addresses.ts';
+import { currencies, TCurrencies } from '@/constants/addresses';
 
 interface ICurrencySelect {
   value: string;

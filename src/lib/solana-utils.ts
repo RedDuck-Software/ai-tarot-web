@@ -2,7 +2,7 @@
 import { WalletAdapterProps } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
-import { connection } from '.';
+import { connection } from '../constants/solana';
 
 export const sendAndConfirmTransaction = async (
   payer: PublicKey,

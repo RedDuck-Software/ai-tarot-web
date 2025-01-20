@@ -1,10 +1,10 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 
-import { AdminBtn } from '@/components/common/AdminBtn';
-import { GoToTwitterBtn } from '@/components/common/GoToTwitterBtn';
-import { PredictFutureBtn } from '@/components/common/PredictFutureBtn';
+import { AdminBtn } from '@/components/common/buttons/admin';
+import { GoToTwitterBtn } from '@/components/common/buttons/go-to-twitter';
+import { PredictFutureBtn } from '@/components/common/buttons/predict-future';
 import { OwnerAddress } from '@/constants/addresses';
-import { network } from '@/lib/solana';
+import { network } from '@/constants/solana';
 
 export const Hero = () => {
   const { publicKey } = useWallet();

@@ -2,9 +2,9 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
-import { currencies, TCurrencies } from '@/constants/addresses.ts';
+import { currencies, TCurrencies } from '@/constants/addresses';
 import useSubmitTarotCards from '@/hooks/api/use-submit-cards';
-import useSend from '@/hooks/contracts/write/use-send.ts';
+import useSend from '@/hooks/contracts/write/use-send';
 import { getRandomTarotCards } from '@/lib/utils';
 import { Status, useStatusModalStore } from '@/store/status-modal';
 

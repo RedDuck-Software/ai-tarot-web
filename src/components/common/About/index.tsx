@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { routes } from '@/lib/router';
+import { routes } from '@/constants/router';
 
 const INSTRUCTIONS = [
   {

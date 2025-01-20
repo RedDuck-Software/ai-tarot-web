@@ -1,8 +1,8 @@
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router';
 
-import { DefaultLayout } from '@/layouts/default-layout';
-import { MainLayout } from '@/layouts/main-layout';
+import { DefaultLayout } from '@/components/common/layouts/default-layout';
+import { MainLayout } from '@/components/common/layouts/main-layout';
 
 export const routes = {
   HOME: '/',

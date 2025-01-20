@@ -5,13 +5,13 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 
-import { BaseTooltip } from '@/components/common/BaseTooltip';
-import { CurrencySelect } from '@/components/common/CurrencySelect';
+import { BaseTooltip } from '@/components/common/base-tooltip';
+import { CurrencySelect } from '@/components/common/currency-select';
 import { Button } from '@/components/ui/button.tsx';
-import { currencies, TCurrencies } from '@/constants/addresses.ts';
+import { currencies, TCurrencies } from '@/constants/addresses';
 import useStatus from '@/hooks/api/use-status';
 import useMakePrediction from '@/hooks/contracts/write/use-make-prediction';
-import useSend from '@/hooks/contracts/write/use-send.ts';
+import useSend from '@/hooks/contracts/write/use-send';
 import { cn, showTxToast } from '@/lib/utils';
 import { useWalletModalStore } from '@/store/wallet-modal.tsx';
 
