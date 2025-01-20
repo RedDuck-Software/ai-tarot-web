@@ -26,7 +26,9 @@ export const sendAndConfirmTransaction = async (
     'finalized',
   );
 
-  if (result.value.err) throw result.value.err;
+  if (result.value.err) {
+    throw result.value.err;
+  }
 
   return txHash;
 };

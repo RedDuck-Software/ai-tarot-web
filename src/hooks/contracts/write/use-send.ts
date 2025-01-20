@@ -3,9 +3,11 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import { useMutation } from '@tanstack/react-query';
 
-import { currencies, OwnerAddress, TCurrencies } from '@/constants/addresses';
+import { useGetTokenAndSolBalance } from '../read/use-get-token-and-sol-balance';
+
+import { currencies, OwnerAddress, TCurrencies, wSolMint } from '@/constants/addresses';
 import useSendSol from '@/hooks/contracts/write/use-send-sol.ts';
-import { network } from '@/lib/solana';
+import { connection, network } from '@/lib/solana';
 import { sendAndConfirmTransaction } from '@/lib/solana/utils';
 import { generateAssociatedTokenAccountInstruction } from '@/lib/utils.ts';
 
@@ -18,12 +20,19 @@ interface ISend {
 
 const useSend = () => {
   const { publicKey, sendTransaction } = useWallet();
+  const { data: tokens } = useGetTokenAndSolBalance();
   const { mutateAsync: sendSol } = useSendSol();
 
   return useMutation({
     async mutationFn({ amount, tokenName }: ISend) {
       if (!publicKey) {
         return;
+      }
+
+      const tokenBalanceInfo = tokens?.find((token) => token.mint === currencies[tokenName].address.toString());
+
+      if (!tokenBalanceInfo || Number(tokenBalanceInfo.amount) < amount) {
+        throw new Error('Insufficient funds');
       }
 
       if (tokenName === 'wSolMint') {
@@ -33,6 +42,7 @@ const useSend = () => {
       const { address: mint, decimals } = currencies[tokenName];
 
       const rawTx = new Transaction();
+      console.log(1);
 
       const senderTokenAddress = await getAssociatedTokenAddress(mint, publicKey);
       const recipientTokenAddress = await getAssociatedTokenAddress(mint, recipient);
@@ -50,6 +60,20 @@ const useSend = () => {
       rawTx.add(
         createTransferInstruction(senderTokenAddress, recipientTokenAddress, publicKey, amount * 10 ** decimals),
       );
+
+      const latestBlockhash = await connection.getLatestBlockhash({
+        commitment: 'finalized',
+      });
+
+      rawTx.recentBlockhash = latestBlockhash.blockhash;
+      rawTx.feePayer = publicKey;
+
+      const fee = await rawTx.getEstimatedFee(connection);
+      const solBalance = tokens?.find((token) => token.mint === wSolMint.toBase58())?.amount;
+
+      if (fee && solBalance && Number(solBalance) + Number(amount) < fee) {
+        throw new Error('Insufficient SOL for transaction fee');
+      }
 
       return await sendAndConfirmTransaction(publicKey, rawTx, sendTransaction);
     },
