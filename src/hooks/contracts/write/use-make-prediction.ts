@@ -11,7 +11,7 @@ import { Status, useStatusModalStore } from '@/store/status-modal';
 let toastId: string | number | null = null;
 
 const notify = () => {
-  toastId = toast('Making prediction...', {
+  toastId = toast('Connecting with the Oracle...', {
     autoClose: false,
     closeOnClick: false,
     draggable: false,

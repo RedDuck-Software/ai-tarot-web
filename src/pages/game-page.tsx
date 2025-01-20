@@ -1,7 +1,7 @@
 import { useLayoutEffect } from 'react';
 
-import { AboutSection } from '@/components/common/section';
 import { Header } from '@/components/common/header';
+import { AboutSection } from '@/components/common/section';
 import { TarotLine } from '@/components/common/tarot-line';
 import { GameSection } from '@/components/pages/game/game';
 import { WORDS } from '@/constants/words';
