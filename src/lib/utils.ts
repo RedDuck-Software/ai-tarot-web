@@ -1,8 +1,15 @@
-import { clsx, type ClassValue } from 'clsx';
+import {
+  ASSOCIATED_TOKEN_PROGRAM_ID,
+  createAssociatedTokenAccountInstruction,
+  TOKEN_PROGRAM_ID,
+} from '@solana/spl-token';
+import { PublicKey, TransactionInstruction } from '@solana/web3.js';
+import { type ClassValue, clsx } from 'clsx';
 import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import { stringToBytes } from 'viem';
 
+import { connection } from '@/constants/solana';
 import { TarotCard } from '@/types/tarot';
 
 export function cn(...inputs: ClassValue[]) {
@@ -13,22 +20,23 @@ export const shortenAddress = (address: string, fromStart = 4, fromEnd = 4) => {
   return `${address.slice(0, fromStart)}...${address.slice(-fromEnd)}`;
 };
 
-export const showTxToast = (methodName: string, promise: () => Promise<void>) =>
-  toast.promise(promise, {
+export function showTxToast<T = void>(methodName: string, promise: () => Promise<T>) {
+  return toast.promise<T>(promise, {
     pending: `${methodName} in progress`,
     success: `${methodName} completed`,
     error: `${methodName} failed`,
   });
+}
 
 export const getRandomTarotCards = (hash: string): TarotCard[] => {
   const TAROT_CARDS_AMOUNT = 78;
 
-  const splitedHash = splitStringIntoEqualParts(hash, Math.floor(hash.length / 3));
+  const splittedHash = splitStringIntoEqualParts(hash, Math.floor(hash.length / 3));
 
   const tarotIds: number[] = [];
 
   while (tarotIds.length < 3) {
-    let tarotId = calculateByteSum(splitedHash[tarotIds.length]) % TAROT_CARDS_AMOUNT;
+    let tarotId = calculateByteSum(splittedHash[tarotIds.length]) % TAROT_CARDS_AMOUNT;
 
     while (tarotIds.includes(tarotId)) {
       tarotId = (tarotId + 1) % TAROT_CARDS_AMOUNT;
@@ -37,12 +45,15 @@ export const getRandomTarotCards = (hash: string): TarotCard[] => {
     tarotIds.push(tarotId);
   }
 
-  const isReverted = splitedHash
+  const isReverted = splittedHash
     .map((part) => calculateByteSum(part.slice(0, 3)))
-    .map((sum) => sum % 7 === 0)
+    .map((sum) => sum % 50 === 0)
     .slice(0, 3);
 
-  return tarotIds.map((tarot, idx) => ({ id: tarot, reverted: isReverted[idx] }));
+  return tarotIds.map((tarot, idx) => ({
+    id: tarot,
+    reverted: isReverted[idx],
+  }));
 };
 
 const calculateByteSum = (str: string): number => stringToBytes(str).reduce((sum, byte) => sum + byte, 0);
@@ -57,10 +68,26 @@ const splitStringIntoEqualParts = (str: string, partSize: number): string[] => {
   return parts;
 };
 
-console.log(
-  'getRandomTarotCards',
-  getRandomTarotCards(
-    'd47bmsYwzMLqmAzmBaQ8ywtjBkx3jWNgSL71E6Mqi4ZEXHNDk9oTCgrN3B6UkiKorvc7HGFKiBwKB12mGGJV2dj' +
-      'Ai1UV9wcsBC8mACaW11sJdCL5ot8nL16pJ7oZXqoS2h5',
-  ),
-);
+export async function generateAssociatedTokenAccountInstruction({
+  owner,
+  payer,
+  mint,
+}: {
+  payer: PublicKey;
+  owner: PublicKey;
+  mint: PublicKey;
+}): Promise<TransactionInstruction | undefined> {
+  const associatedTokenAccount = PublicKey.findProgramAddressSync(
+    [owner.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), mint.toBuffer()],
+    ASSOCIATED_TOKEN_PROGRAM_ID,
+  );
+
+  const accountInfo = await connection.getAccountInfo(associatedTokenAccount[0]);
+
+  if (accountInfo) {
+    console.log('Associated token account already exists');
+    return undefined;
+  }
+
+  return createAssociatedTokenAccountInstruction(payer, associatedTokenAccount[0], owner, mint);
+}

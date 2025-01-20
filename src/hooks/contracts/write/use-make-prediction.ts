@@ -1,19 +1,17 @@
 import { useWallet } from '@solana/wallet-adapter-react';
-import { SystemProgram, Transaction } from '@solana/web3.js';
 import { useMutation } from '@tanstack/react-query';
-
-import { OwnerAddress } from '@/constants/addresses';
-import { env } from '@/env';
-import useSubmitTarotCards from '@/hooks/api/use-submit-cards';
-import { network } from '@/lib/solana';
-import { sendAndConfirmTransaction } from '@/lib/solana/utils';
-import { getRandomTarotCards } from '@/lib/utils';
 import { toast } from 'react-toastify';
+
+import { currencies, Currencies } from '@/constants/addresses';
+import useSubmitTarotCards from '@/hooks/api/use-submit-cards';
+import useSend from '@/hooks/contracts/write/use-send';
+import { getRandomTarotCards } from '@/lib/utils';
+import { Status, useStatusModalStore } from '@/store/status-modal';
 
 let toastId: string | number | null = null;
 
 const notify = () => {
-  toastId = toast('Making prediction...', {
+  toastId = toast('Connecting with the Oracle...', {
     autoClose: false,
     closeOnClick: false,
     draggable: false,
@@ -22,53 +20,70 @@ const notify = () => {
   });
 };
 
-const updateToast = () => {
-  if (toastId !== null) {
-    toast.update(toastId, {
-      render: 'Done!',
-      type: 'success',
-      autoClose: 3000,
-      isLoading: false,
-    });
-  }
+type MakePrediction = {
+  question: string;
+  tokenName: Currencies;
 };
 
 const useMakePrediction = () => {
-  const { publicKey, sendTransaction } = useWallet();
+  const { publicKey } = useWallet();
   const { mutateAsync: submitCards } = useSubmitTarotCards();
+  const { mutateAsync: sendCurrency } = useSend();
+  const { setStatus } = useStatusModalStore();
 
   return useMutation({
-    async mutationFn(question: string) {
+    async mutationFn({ question, tokenName }: MakePrediction) {
       if (!publicKey) {
         return;
       }
 
       notify();
 
-      const rawTx = new Transaction();
+      const txHash = await sendCurrency({ amount: currencies[tokenName].defaultPrice, tokenName });
 
-      rawTx.add(
-        SystemProgram.transfer({
-          fromPubkey: publicKey,
-          toPubkey: OwnerAddress[network],
-          lamports: Number(env.VITE_DEPOSIT_AMOUNT_SOL) * 1e9,
-        }),
-      );
-
-      const txHash = await sendAndConfirmTransaction(publicKey, rawTx, sendTransaction);
-      console.log('txHash', txHash);
+      if (!txHash) {
+        return;
+      }
 
       const tarots = getRandomTarotCards(txHash + publicKey.toBase58());
 
-      const result = await submitCards({ tarots, hash: txHash, question });
+      const result = await submitCards({
+        tarots,
+        hash: txHash,
+        question,
+        address: currencies[tokenName].address.toString(),
+      });
 
-      updateToast();
+      if (toastId) {
+        toast.dismiss(toastId);
+      }
 
-      return result?.response || '';
+      // setStatus(Status.Success);
+
+      return {
+        tarots,
+        answer: result?.response ?? '',
+      };
     },
 
     onError(error) {
       console.trace(error);
+
+      if (toastId) {
+        toast.dismiss(toastId);
+      }
+
+      if (error.message === 'User rejected the request.') {
+        setStatus(Status.Canceled);
+        return;
+      }
+
+      if (error.message === 'Insufficient funds') {
+        setStatus(Status.InsufficientFunds);
+        return;
+      }
+
+      setStatus(Status.Failed);
     },
   });
 };

@@ -1,5 +1,6 @@
 import { env } from '@/env';
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export interface FetcherResponse<T> {
   data: T | null;
   status: number;
@@ -14,6 +15,10 @@ export class Fetcher {
   constructor(baseURL: URL, headers: Record<string, string>) {
     this._baseURL = baseURL;
     this._headers = headers;
+  }
+
+  public setHeader(key: string, value: string) {
+    this._headers[key] = value;
   }
 
   public async get<T>(url: string) {
