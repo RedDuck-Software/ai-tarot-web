@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 
-import { FullPageLoader } from './components/common/loader';
+import { FullPageLoader } from './components/common/loaders';
 import { QueryProvider } from './providers/query-provider';
 import { RouterProvider } from './providers/router-provider';
 import { SolanaProvider } from './providers/solana-provider';

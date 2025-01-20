@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router';
 
-import { Footer } from '@/components/common/footer';
+import { Footer } from '@/components/common/base-footer';
 
 export function MainLayout() {
   return (
