@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
 import { stringToBytes } from 'viem';
 
-import { connection } from '@/lib/solana';
+import { connection } from '@/constants/solana';
 import { TarotCard } from '@/types/tarot';
 
 export function cn(...inputs: ClassValue[]) {

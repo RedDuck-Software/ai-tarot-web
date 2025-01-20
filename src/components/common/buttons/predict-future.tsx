@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 
 import { Button } from '@/components/ui/button';
-import { routes } from '@/lib/router';
+import { routes } from '@/constants/router';
 
 export const PredictFutureBtn = () => {
   return (

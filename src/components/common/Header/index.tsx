@@ -5,8 +5,8 @@ import { Link } from 'react-router';
 import { NavMenu } from './nav-menu';
 
 import { Button } from '@/components/ui/button';
+import { routes } from '@/constants/router';
 import { useBreakpoint } from '@/hooks/use-breakpoint';
-import { routes } from '@/lib/router';
 import { cn } from '@/lib/utils';
 
 export const Header = () => {

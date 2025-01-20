@@ -1,5 +1,6 @@
 import { env } from '@/env';
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export interface FetcherResponse<T> {
   data: T | null;
   status: number;

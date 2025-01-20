@@ -5,8 +5,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useGetTokenAndSolBalance } from '../read/use-get-token-and-sol-balance';
 
 import { OwnerAddress, wSolMint } from '@/constants/addresses';
-import { connection, network } from '@/lib/solana';
-import { sendAndConfirmTransaction } from '@/lib/solana/utils';
+import { connection, network } from '@/constants/solana';
+import { sendAndConfirmTransaction } from '@/lib/solana-utils';
 
 const useSendSol = () => {
   const { publicKey, sendTransaction } = useWallet();

@@ -3,12 +3,12 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
-import { Header } from '@/components/common/Header';
+import { Header } from '@/components/common/header';
 import { Button } from '@/components/ui/button';
 import { OwnerAddress } from '@/constants/addresses';
+import { network } from '@/constants/solana';
 import useControlService from '@/hooks/api/use-control-service';
 import useStatus from '@/hooks/api/use-status';
-import { network } from '@/lib/solana';
 
 export default function AdminPage() {
   const { publicKey } = useWallet();

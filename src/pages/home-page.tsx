@@ -1,5 +1,5 @@
-import { AboutSection } from '@/components/common/About';
-import { TarotLine } from '@/components/common/TarotLine';
+import { AboutSection } from '@/components/common/about';
+import { TarotLine } from '@/components/common/tarot-line';
 import { CtaBlock } from '@/components/pages/home/cta';
 import { Faq } from '@/components/pages/home/faq';
 import { Hero } from '@/components/pages/home/hero';

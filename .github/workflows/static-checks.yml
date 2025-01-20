@@ -4,33 +4,28 @@ on:
   push:
     branches:
       - main
-      - staging
-  pull_request: {}
-  workflow_dispatch: {}
+      - dev
+  pull_request:
+
+permissions:
+  actions: read
+  contents: read
 
 jobs:
-  test:
+  main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
         with:
-          node-version: '20'
-
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
       - name: Enable Corepack
         run: corepack enable
-
-      - uses: actions/cache@v3
-        id: cache2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/yarn.lock') }}-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-npm-
-
-      - name: Install project dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+      - name: Prepare Yarn
+        run: corepack prepare yarn@4.6.0 --activate
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
-
       - name: Testing
         run: yarn tsc --noEmit && yarn lint && yarn build

@@ -33,4 +33,4 @@ export const currencies = {
   },
 };
 
-export type TCurrencies = keyof typeof currencies;
+export type Currencies = keyof typeof currencies;

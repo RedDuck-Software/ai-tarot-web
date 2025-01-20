@@ -5,13 +5,13 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 
-import { BaseTooltip } from '@/components/common/BaseTooltip';
-import { CurrencySelect } from '@/components/common/CurrencySelect';
+import { BaseTooltip } from '@/components/common/base-tooltip';
+import { CurrencySelect } from '@/components/common/currency-select';
 import { Button } from '@/components/ui/button.tsx';
-import { currencies, TCurrencies } from '@/constants/addresses.ts';
+import { currencies, Currencies } from '@/constants/addresses';
 import useStatus from '@/hooks/api/use-status';
 import useMakePrediction from '@/hooks/contracts/write/use-make-prediction';
-import useSend from '@/hooks/contracts/write/use-send.ts';
+import useSend from '@/hooks/contracts/write/use-send';
 import { cn, showTxToast } from '@/lib/utils';
 import { useWalletModalStore } from '@/store/wallet-modal.tsx';
 
@@ -56,7 +56,7 @@ export const GameSection = () => {
   const [showTip, setShowTip] = useState<boolean>(false);
   const [isRetry, setRetry] = useState(false);
   const [dontReload, setDontReload] = useState(false);
-  const [currencyName, setCurrencyName] = useState<TCurrencies>(Object.keys(currencies)[0] as TCurrencies);
+  const [currencyName, setCurrencyName] = useState<Currencies>(Object.keys(currencies)[0] as Currencies);
 
   const {
     register,

@@ -6,7 +6,7 @@ export const BaseErrorModal = () => {
 
   return (
     <div className="flex w-[75vw] flex-col items-center justify-center gap-[15px] text-center text-[20px] leading-[30px] md:w-[480px]">
-      <img src="/icons/failed.svg" alt="failed" className="h-[120px] w-[93px] md:h-[180px] md:w-[140px]" />
+      <img src="/icons/modals/failed.svg" alt="failed" className="h-[120px] w-[93px] md:h-[180px] md:w-[140px]" />
 
       <p className="text-[22px] leading-[30px] md:text-[28px] md:leading-[39px]">Oracle Response Failed</p>
       <p className="text-[16px] leading-[22px] md:text-[18px] md:leading-[25px]">

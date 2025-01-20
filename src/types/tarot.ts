@@ -1,4 +1,4 @@
-export interface TarotCard {
+export type TarotCard = {
   id: number;
   reverted: boolean;
-}
+};

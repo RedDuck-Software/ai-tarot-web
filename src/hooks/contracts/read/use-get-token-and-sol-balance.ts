@@ -3,7 +3,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useQuery } from '@tanstack/react-query';
 
 import { wSolMint } from '@/constants/addresses';
-import { connection } from '@/lib/solana';
+import { connection } from '@/constants/solana';
 
 export const useGetTokenAndSolBalance = () => {
   const { publicKey } = useWallet();

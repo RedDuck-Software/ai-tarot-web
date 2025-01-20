@@ -24,14 +24,15 @@ const inputVariants = cva(
   },
 );
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, VariantProps<typeof inputVariants> {
+export type InputProps = {
   asChild?: boolean;
   error?: ReactNode;
   label?: ReactNode;
   endAdornment?: ReactNode;
   startAdornment?: ReactNode;
   wrapperClassName?: string;
-}
+} & React.InputHTMLAttributes<HTMLInputElement> &
+  VariantProps<typeof inputVariants>;
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (

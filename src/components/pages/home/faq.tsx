@@ -1,4 +1,4 @@
-import { GoToTwitterBtn } from '@/components/common/GoToTwitterBtn';
+import { GoToTwitterBtn } from '@/components/common/buttons/go-to-twitter';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const BENEFITS = [

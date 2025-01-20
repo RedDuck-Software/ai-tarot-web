@@ -1,4 +1,4 @@
-import { PredictFutureBtn } from '@/components/common/PredictFutureBtn';
+import { PredictFutureBtn } from '@/components/common/buttons/predict-future';
 import { useBreakpoint } from '@/hooks/use-breakpoint';
 import { cn } from '@/lib/utils';
 import { BaseComponentProps } from '@/types';
