@@ -1,4 +1,4 @@
-import { AboutSection } from '@/components/common/about-section';
+import { AboutSection } from '@/components/common/section';
 import { TarotLine } from '@/components/common/tarot-line';
 import { CtaBlock } from '@/components/pages/home/cta';
 import { Faq } from '@/components/pages/home/faq';
