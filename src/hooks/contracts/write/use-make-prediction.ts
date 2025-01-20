@@ -2,7 +2,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
-import { currencies, TCurrencies } from '@/constants/addresses';
+import { currencies, Currencies } from '@/constants/addresses';
 import useSubmitTarotCards from '@/hooks/api/use-submit-cards';
 import useSend from '@/hooks/contracts/write/use-send';
 import { getRandomTarotCards } from '@/lib/utils';
@@ -20,10 +20,10 @@ const notify = () => {
   });
 };
 
-interface IMakePrediction {
+type MakePrediction = {
   question: string;
-  tokenName: TCurrencies;
-}
+  tokenName: Currencies;
+};
 
 const useMakePrediction = () => {
   const { publicKey } = useWallet();
@@ -32,7 +32,7 @@ const useMakePrediction = () => {
   const { setStatus } = useStatusModalStore();
 
   return useMutation({
-    async mutationFn({ question, tokenName }: IMakePrediction) {
+    async mutationFn({ question, tokenName }: MakePrediction) {
       if (!publicKey) {
         return;
       }

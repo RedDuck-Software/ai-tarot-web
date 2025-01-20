@@ -7,10 +7,10 @@ export enum Status {
   Canceled = 4,
 }
 
-interface StatusModalStore {
+type StatusModalStore = {
   status: Status | null;
   setStatus: (setStatus: Status | null) => void;
-}
+};
 
 export const useStatusModalStore = create<StatusModalStore>((set) => ({
   status: null,

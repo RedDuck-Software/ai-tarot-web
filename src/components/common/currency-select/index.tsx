@@ -1,10 +1,10 @@
 import { Select, SelectTrigger, SelectItem, SelectValue, SelectContent } from '@/components/ui/select.tsx';
-import { currencies, TCurrencies } from '@/constants/addresses';
+import { currencies, Currencies } from '@/constants/addresses';
 
-interface ICurrencySelect {
+type ICurrencySelect = {
   value: string;
-  onValueChange: (value: TCurrencies) => void;
-}
+  onValueChange: (value: Currencies) => void;
+};
 
 export const CurrencySelect = ({ value, onValueChange }: ICurrencySelect) => {
   return (

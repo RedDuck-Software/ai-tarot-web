@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { useGetTokenAndSolBalance } from '../read/use-get-token-and-sol-balance';
 
-import { currencies, OwnerAddress, TCurrencies, wSolMint } from '@/constants/addresses';
+import { currencies, OwnerAddress, Currencies, wSolMint } from '@/constants/addresses';
 import { connection, network } from '@/constants/solana';
 import useSendSol from '@/hooks/contracts/write/use-send-sol';
 import { sendAndConfirmTransaction } from '@/lib/solana-utils';
@@ -13,10 +13,10 @@ import { generateAssociatedTokenAccountInstruction } from '@/lib/utils.ts';
 
 const recipient = new PublicKey(OwnerAddress[network]);
 
-interface ISend {
+type Send = {
   amount: number;
-  tokenName: TCurrencies;
-}
+  tokenName: Currencies;
+};
 
 const useSend = () => {
   const { publicKey, sendTransaction } = useWallet();
@@ -24,7 +24,7 @@ const useSend = () => {
   const { mutateAsync: sendSol } = useSendSol();
 
   return useMutation({
-    async mutationFn({ amount, tokenName }: ISend) {
+    async mutationFn({ amount, tokenName }: Send) {
       if (!publicKey) {
         return;
       }

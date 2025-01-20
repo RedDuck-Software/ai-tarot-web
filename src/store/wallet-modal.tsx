@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 
-interface WalletModalStore {
+type WalletModalStore = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-}
+};
 
 export const useWalletModalStore = create<WalletModalStore>((set) => ({
   isOpen: false,

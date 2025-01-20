@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { BaseTooltip } from '@/components/common/base-tooltip';
 import { CurrencySelect } from '@/components/common/currency-select';
 import { Button } from '@/components/ui/button.tsx';
-import { currencies, TCurrencies } from '@/constants/addresses';
+import { currencies, Currencies } from '@/constants/addresses';
 import useStatus from '@/hooks/api/use-status';
 import useMakePrediction from '@/hooks/contracts/write/use-make-prediction';
 import useSend from '@/hooks/contracts/write/use-send';
@@ -56,7 +56,7 @@ export const GameSection = () => {
   const [showTip, setShowTip] = useState<boolean>(false);
   const [isRetry, setRetry] = useState(false);
   const [dontReload, setDontReload] = useState(false);
-  const [currencyName, setCurrencyName] = useState<TCurrencies>(Object.keys(currencies)[0] as TCurrencies);
+  const [currencyName, setCurrencyName] = useState<Currencies>(Object.keys(currencies)[0] as Currencies);
 
   const {
     register,
