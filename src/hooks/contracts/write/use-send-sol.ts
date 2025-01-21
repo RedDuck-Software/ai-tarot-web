@@ -1,5 +1,5 @@
 import { useWallet } from '@solana/wallet-adapter-react';
-import { SystemProgram, Transaction } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, SystemProgram, Transaction } from '@solana/web3.js';
 import { useMutation } from '@tanstack/react-query';
 
 import { useGetTokenAndSolBalance } from '../read/use-get-token-and-sol-balance';
@@ -38,8 +38,10 @@ const useSendSol = () => {
       const fee = await rawTx.getEstimatedFee(connection);
       const solBalance = tokens?.find((token) => token.mint === wSolMint.toBase58())?.amount;
 
-      if (fee && solBalance && Number(solBalance) + Number(amount) < fee) {
-        throw new Error('Insufficient SOL for transaction fee');
+      console.log(Number(solBalance), fee, amount * LAMPORTS_PER_SOL);
+
+      if (fee && solBalance && Number(solBalance) < fee + amount * LAMPORTS_PER_SOL) {
+        throw new Error('Insufficient funds');
       }
 
       return await sendAndConfirmTransaction(publicKey, rawTx, sendTransaction);

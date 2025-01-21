@@ -23,10 +23,10 @@ const INSTRUCTIONS = [
     description: (
       <>
         Once the payment is complete, the page will load your results <br />
-        <p className="mt-2">
+        <span className="mt-2">
           <span className="font-bold">IMPORTANT:</span> DO NOT refresh the page if you’ve made a payment but haven’t
           received the result yet. Wait until the process is complete
-        </p>
+        </span>
       </>
     ),
   },
@@ -37,10 +37,10 @@ const INSTRUCTIONS = [
   {
     subtitle: 'Ask another question:',
     description: (
-      <p>
+      <span>
         To start a new session, click &quot;
         <span className="font-bold">Make a New Forecast</span>&quot; or refresh the page
-      </p>
+      </span>
     ),
   },
 ];

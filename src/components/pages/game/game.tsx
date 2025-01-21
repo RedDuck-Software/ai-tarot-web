@@ -57,6 +57,7 @@ export const GameSection = () => {
   const [isRetry, setRetry] = useState(false);
   const [dontReload, setDontReload] = useState(false);
   const [currencyName, setCurrencyName] = useState<Currencies>(Object.keys(currencies)[0] as Currencies);
+  const [question, setQuestion] = useState<string>('');
 
   const {
     register,
@@ -70,6 +71,7 @@ export const GameSection = () => {
 
   const onSubmit: SubmitHandler<TarotRequestSchemaType> = async (data, e) => {
     e?.preventDefault();
+    setQuestion(data.question.trim());
     await transfer({ question: data.question.trim(), tokenName: currencyName });
   };
 
@@ -93,8 +95,9 @@ export const GameSection = () => {
     if (predictionAnswer) {
       const timer = setTimeout(() => {
         const formatted = predictionAnswer.answer.replaceAll('*', '');
+        const response = `Your answer:\n${formatted}\n\n\nYour question:\n${question}`;
 
-        setValue('question', formatted);
+        setValue('question', response);
         setShowTip(true);
         setRetry(true);
       }, 3200);
@@ -103,7 +106,7 @@ export const GameSection = () => {
         clearTimeout(timer);
       };
     }
-  }, [isSuccess, predictionAnswer, setValue, watch]);
+  }, [isSuccess, predictionAnswer, question, setValue, watch]);
 
   useEffect(() => {
     if (isTipSuccess) {
