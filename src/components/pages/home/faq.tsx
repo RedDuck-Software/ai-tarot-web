@@ -97,14 +97,17 @@ export const Faq = () => {
           ))}
         </Accordion>
       </div>
+
       <div className="flex h-full min-h-full w-full flex-col justify-between border-black px-[24px] pt-[80px] lg:pl-[140px] lg:pr-[60px]">
         <div className="space-y-8">
           <p className="text-[40px] font-light leading-[48px] max-sm:max-w-[327px] md:text-[60px] md:leading-[72px]">
             Horoscope on X (Twitter) for every day
           </p>
+
           <div className="w-full md:max-w-[240px]">
             <GoToTwitterBtn />
           </div>
+
           <img
             src="/images/horoscope.png"
             alt="horoscope"

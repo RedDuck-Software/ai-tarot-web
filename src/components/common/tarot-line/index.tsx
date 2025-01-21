@@ -24,6 +24,7 @@ export const TarotLine = ({ className, words }: BaseComponentProps<{ words: stri
               )}
             >
               <p className="text-[24px] font-light leading-7 text-black">{word}</p>
+
               {index !== wordsArr.length - 1 && (
                 <svg width="44" height="50" viewBox="0 0 44 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
