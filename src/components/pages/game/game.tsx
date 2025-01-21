@@ -12,6 +12,7 @@ import { currencies, Currencies } from '@/constants/addresses';
 import useStatus from '@/hooks/api/use-status';
 import useMakePrediction from '@/hooks/contracts/write/use-make-prediction';
 import useSend from '@/hooks/contracts/write/use-send';
+import { useBreakpoint } from '@/hooks/use-breakpoint';
 import { cn, showTxToast } from '@/lib/utils';
 import { useWalletModalStore } from '@/store/wallet-modal.tsx';
 
@@ -26,13 +27,21 @@ const TarotRequestSchema = z.object({
     }),
 });
 
-const DEFAULT_IMAGE = 'images/tarot-game/bord.png';
+const DEFAULT_IMAGE = 'images/tarot-game/board.png';
 const SHUFFLE_DECK = 'images/tarot-game/shuffle-deck.png';
 const ORACLE_NEEDS_TIME = 'images/tarot-game/oracle-needs-time.png';
 const THANKS_ORACLE = 'images/tarot-game/thanks-oracle.png';
 const SHUTDOWN = 'images/tarot-game/shutdown.png';
 
+const DEFAULT_IMAGE_SM = 'images/tarot-game/board-sm.png';
+const SHUFFLE_DECK_SM = 'images/tarot-game/shuffle-deck-sm.png';
+const ORACLE_NEEDS_TIME_SM = 'images/tarot-game/oracle-needs-time-sm.png';
+const THANKS_ORACLE_SM = 'images/tarot-game/thanks-oracle-sm.png';
+const SHUTDOWN_SM = 'images/tarot-game/shutdown-sm.png';
+
 const LOADING_IMAGES = [SHUFFLE_DECK, ORACLE_NEEDS_TIME] as const;
+const LOADING_IMAGES_SM = [SHUFFLE_DECK_SM, ORACLE_NEEDS_TIME_SM] as const;
+
 const CARD_ANIMATIONS = [
   'firstCardAppearance 1s linear forwards',
   'secondCardAppearance 2s linear forwards',
@@ -44,13 +53,15 @@ type TarotRequestSchemaType = z.infer<typeof TarotRequestSchema>;
 export const GameSection = () => {
   const { publicKey } = useWallet();
 
+  const isMd = useBreakpoint('md');
+
   const { setIsOpen } = useWalletModalStore();
   const { mutateAsync: transfer, isSuccess, isPending, data: predictionAnswer } = useMakePrediction();
   const { mutateAsync: transferCurrency, isPending: isSolPending, isSuccess: isTipSuccess } = useSend();
   const { data: status } = useStatus();
 
   const [selectedTip, setSelectedTip] = useState<number>(0);
-  const [currentMainImage, setCurrentMainImage] = useState<string>(DEFAULT_IMAGE);
+  const [currentMainImage, setCurrentMainImage] = useState<string>(isMd ? DEFAULT_IMAGE : DEFAULT_IMAGE_SM);
   const [currentPendingImage, setCurrentPendingImage] = useState<number>(0);
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
   const [showTip, setShowTip] = useState<boolean>(false);
@@ -68,6 +79,25 @@ export const GameSection = () => {
   } = useForm<TarotRequestSchemaType>({
     resolver: zodResolver(TarotRequestSchema),
   });
+
+  // const asd = {
+  //   tarots: [
+  //     {
+  //       id: 8,
+  //       reverted: false,
+  //     },
+  //     {
+  //       id: 72,
+  //       reverted: false,
+  //     },
+  //     {
+  //       id: 40,
+  //       reverted: false,
+  //     },
+  //   ],
+  //   answer:
+  //     "The cards drawn are Strength, Nine of Pentacles, and Five of Cups, all upright.\n\nStrength signifies inner courage, patience, and control. It suggests that you possess the inner strength to face challenges with grace and resilience.\n\nThe Nine of Pentacles represents self-sufficiency, financial independence, and enjoying the fruits of your labor. It indicates a period of prosperity and comfort, where your hard work is paying off.\n\nThe Five of Cups points to feelings of loss, regret, or focusing on the negative. However, it also serves as a reminder to shift your perspective and recognize the opportunities and support still available to you.\n\nTogether, these cards suggest that while you have the strength and resources to achieve personal success and independence, there may be an emotional hurdle or past disappointment that is holding you back. It's important to acknowledge any feelings of regret or loss, but also to focus on the positive aspects of your life and the potential for growth and fulfillment. Embrace your inner strength and the abundance around you, and allow yourself to move forward with confidence.",
+  // };
 
   const onSubmit: SubmitHandler<TarotRequestSchemaType> = async (data, e) => {
     e?.preventDefault();
@@ -110,17 +140,17 @@ export const GameSection = () => {
 
   useEffect(() => {
     if (isTipSuccess) {
-      setCurrentMainImage(THANKS_ORACLE);
+      setCurrentMainImage(isMd ? THANKS_ORACLE : THANKS_ORACLE_SM);
 
       const timer = setTimeout(() => {
-        setCurrentMainImage(DEFAULT_IMAGE);
+        setCurrentMainImage(isMd ? DEFAULT_IMAGE : DEFAULT_IMAGE_SM);
       }, 5000);
 
       return () => {
         clearTimeout(timer);
       };
     }
-  }, [isTipSuccess]);
+  }, [isMd, isTipSuccess]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -134,15 +164,15 @@ export const GameSection = () => {
           setIsFadingOut(false);
         }, 500);
       }, 5000);
-      setCurrentMainImage(LOADING_IMAGES[currentPendingImage]);
+      setCurrentMainImage(isMd ? LOADING_IMAGES[currentPendingImage] : LOADING_IMAGES_SM[currentPendingImage]);
     } else {
-      setCurrentMainImage(DEFAULT_IMAGE);
+      setCurrentMainImage(isMd ? DEFAULT_IMAGE : DEFAULT_IMAGE_SM);
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPending, currentPendingImage]);
+  }, [isPending, currentPendingImage, isMd]);
 
   useEffect(() => {
     if (!showTip) {
@@ -170,14 +200,18 @@ export const GameSection = () => {
       <div className="text-center font-bona-nova-sc text-[30px] sm:text-[50px]">Your Future In One Forecast</div>
 
       <div className="w-[90vw] overflow-x-auto sm:w-auto">
-        <div className="relative -z-50 h-[444px] w-[888px] sm:h-auto sm:w-auto">
-          {predictionAnswer && currentMainImage === DEFAULT_IMAGE && (
-            <div className="absolute flex h-[93%] w-full flex-row justify-around py-4 sm:h-full sm:justify-evenly">
+        <div className="relative -z-50 sm:h-auto sm:w-auto md:min-w-[888px]">
+          {predictionAnswer && (
+            <div className="flex h-[93%] w-full flex-col justify-around py-4 max-md:gap-4 sm:h-full sm:justify-evenly md:absolute md:flex-row">
               {predictionAnswer.tarots.map((e, idx) => {
                 return (
                   <img
                     key={e.id}
-                    className={cn('rounded-[8px]', e.reverted && 'rotate-180')}
+                    className={cn(
+                      // 'mx-auto h-[444px] w-[320px] rounded-[8px] md:h-[570px] md:w-[330px]',
+                      'mx-auto rounded-[8px] max-md:h-[485px] max-md:w-[280px]',
+                      e.reverted && 'rotate-180',
+                    )}
                     style={{ animation: CARD_ANIMATIONS[idx] }}
                     src={`images/cards/${e.id}.jpg`}
                     alt="card"
@@ -186,20 +220,22 @@ export const GameSection = () => {
               })}
             </div>
           )}
+
           <img
-            src={status?.isShutDown ? SHUTDOWN : currentMainImage}
-            alt="bord"
+            src={status?.isShutDown ? (isMd ? SHUTDOWN : SHUTDOWN_SM) : currentMainImage}
+            alt="board"
             className={cn(
               'relative -z-50 mx-auto h-auto max-h-[484px] w-auto',
               isPending && 'transition-opacity duration-500 ease-in-out',
               isFadingOut ? 'opacity-0' : 'opacity-100',
+              !isMd && predictionAnswer?.tarots && 'hidden',
             )}
           />
         </div>
       </div>
 
       <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <div className="text-center text-[24px]">Type your question and ask the cards</div>
+        <div className="text-center text-[20px] md:text-[24px]">Type your question and ask the cards</div>
         <BaseTooltip content="COMING SOON">
           <Button size="responsive" className="bg-[#D0C7A3] text-[22px]" variant="outline">
             Suggest question
