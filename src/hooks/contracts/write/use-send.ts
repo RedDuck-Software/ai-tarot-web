@@ -70,8 +70,8 @@ const useSend = () => {
       const fee = await rawTx.getEstimatedFee(connection);
       const solBalance = tokens?.find((token) => token.mint === wSolMint.toBase58())?.amount;
 
-      if (fee && solBalance && Number(solBalance) + Number(amount) < fee) {
-        throw new Error('Insufficient SOL for transaction fee');
+      if (fee && solBalance && Number(solBalance) < fee) {
+        throw new Error('Insufficient funds');
       }
 
       return await sendAndConfirmTransaction(publicKey, rawTx, sendTransaction);
