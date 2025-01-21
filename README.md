@@ -5,5 +5,4 @@
 ## Domain
 
 [https://tarotsol.ai/](https://tarotsol.ai/)
-
 [https://regal-moonbeam-3e1c0e.netlify.app/game](https://regal-moonbeam-3e1c0e.netlify.app/game)
