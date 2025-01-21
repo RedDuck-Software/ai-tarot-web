@@ -15,6 +15,7 @@ export const NavMenu = ({ className }: BaseComponentProps) => {
       >
         <img src="/icons/socials/twitter.svg" alt="twitter" />
       </a>
+
       <ConnectWalletButton />
     </nav>
   );

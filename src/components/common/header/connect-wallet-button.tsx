@@ -4,17 +4,13 @@ import { PhantomWalletName, SolflareWalletName } from '@solana/wallet-adapter-wa
 import { Dot } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { BaseErrorModal } from './modals/base-error';
-import { CanceledModal } from './modals/cancelled';
-import { InsufficientFundsModal } from './modals/insufficient-funds';
-import { SuccessfulModal } from './modals/successful';
-import { SvgComponent } from './progress-bar';
+import { ProgressBar } from './progress-bar';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { shortenAddress } from '@/lib/utils';
-import { Status, useStatusModalStore } from '@/store/status-modal';
+import { useStatusModalStore } from '@/store/status-modal';
 import { useWalletModalStore } from '@/store/wallet-modal';
 
 export const ConnectWalletButton = () => {
@@ -57,41 +53,25 @@ export const ConnectWalletButton = () => {
 
   if (publicKey) {
     return (
-      <>
-        <Popover>
-          <PopoverTrigger ref={buttonRef} asChild>
-            <Button
-              ref={buttonRef}
-              variant={'outline'}
-              className="h-fit w-full bg-customYellow px-[24px] py-[15px] font-poppins text-[22px] font-light leading-[26px] text-black"
-            >
-              {shortenAddress(publicKey.toBase58())}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent style={{ width: popoverWidth }} className="border-0" asChild>
-            <Button
-              onClick={() => void handleDisconnect()}
-              className="h-fit w-full bg-customRed px-[24px] py-[15px] text-[20px] font-light leading-[24px] text-white hover:bg-customRed hover:opacity-80"
-            >
-              Disconnect
-            </Button>
-          </PopoverContent>
-        </Popover>
-
-        <Dialog open={!!status} onOpenChange={onOpenChange}>
-          <DialogContent
-            className="w-fit rounded-lg border-0 bg-[#D8BA9F] !p-[20] max-sm:w-fit md:!p-[40px]"
-            hideX={!!status}
+      <Popover>
+        <PopoverTrigger ref={buttonRef} asChild>
+          <Button
+            ref={buttonRef}
+            variant={'outline'}
+            className="h-fit w-full bg-customYellow px-[24px] py-[15px] font-poppins text-[22px] font-light leading-[26px] text-black"
           >
-            <DialogTitle className="hidden" />
-
-            {status === Status.Success && <SuccessfulModal />}
-            {status === Status.Failed && <BaseErrorModal />}
-            {status === Status.InsufficientFunds && <InsufficientFundsModal />}
-            {status === Status.Canceled && <CanceledModal />}
-          </DialogContent>
-        </Dialog>
-      </>
+            {shortenAddress(publicKey.toBase58())}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent style={{ width: popoverWidth }} className="border-0" asChild>
+          <Button
+            onClick={() => void handleDisconnect()}
+            className="h-fit w-full bg-customRed px-[24px] py-[15px] text-[20px] font-light leading-[24px] text-white hover:bg-customRed hover:opacity-80"
+          >
+            Disconnect
+          </Button>
+        </PopoverContent>
+      </Popover>
     );
   }
 
@@ -116,7 +96,7 @@ export const ConnectWalletButton = () => {
 
             <div className="flex flex-col items-center justify-center gap-[15px] text-center text-[20px] leading-[30px]">
               <div>Awaiting Connect Confirmation</div>
-              <SvgComponent />
+              <ProgressBar />
             </div>
           </div>
         ) : (
