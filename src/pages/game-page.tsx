@@ -10,6 +10,7 @@ export default function GamePage() {
   useLayoutEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
+
   return (
     <>
       <Header />
