@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
@@ -54,21 +54,21 @@ export const GameSection = () => {
   const { publicKey } = useWallet();
 
   const isMd = useBreakpoint('md');
-
   const { setIsOpen } = useWalletModalStore();
   const { mutateAsync: transfer, isSuccess, isPending, data: predictionAnswer } = useMakePrediction();
   const { mutateAsync: transferCurrency, isPending: isSolPending, isSuccess: isTipSuccess } = useSend();
   const { data: status } = useStatus();
 
-  const [selectedTip, setSelectedTip] = useState<number>(0);
+  const [currencyName, setCurrencyName] = useState<Currencies>(Object.keys(currencies)[0] as Currencies);
   const [currentMainImage, setCurrentMainImage] = useState<string>(isMd ? DEFAULT_IMAGE : DEFAULT_IMAGE_SM);
+  const [question, setQuestion] = useState<string>('');
+  const [selectedTip, setSelectedTip] = useState<number>(0);
   const [currentPendingImage, setCurrentPendingImage] = useState<number>(0);
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
   const [showTip, setShowTip] = useState<boolean>(false);
-  const [isRetry, setRetry] = useState(false);
-  const [dontReload, setDontReload] = useState(false);
-  const [currencyName, setCurrencyName] = useState<Currencies>(Object.keys(currencies)[0] as Currencies);
-  const [question, setQuestion] = useState<string>('');
+  const [isRetry, setRetry] = useState<boolean>(false);
+  const [dontReload, setDontReload] = useState<boolean>(false);
+  const questionsCache = useRef<string[]>([]);
 
   const {
     register,
@@ -79,47 +79,6 @@ export const GameSection = () => {
   } = useForm<TarotRequestSchemaType>({
     resolver: zodResolver(TarotRequestSchema),
   });
-
-  // const asd = {
-  //   tarots: [
-  //     {
-  //       id: 8,
-  //       reverted: false,
-  //     },
-  //     {
-  //       id: 72,
-  //       reverted: false,
-  //     },
-  //     {
-  //       id: 40,
-  //       reverted: false,
-  //     },
-  //   ],
-  //   answer:
-  //     "The cards drawn are Strength, Nine of Pentacles, and Five of Cups, all upright.\n\nStrength signifies inner courage, patience, and control. It suggests that you possess the inner strength to face challenges with grace and resilience.\n\nThe Nine of Pentacles represents self-sufficiency, financial independence, and enjoying the fruits of your labor. It indicates a period of prosperity and comfort, where your hard work is paying off.\n\nThe Five of Cups points to feelings of loss, regret, or focusing on the negative. However, it also serves as a reminder to shift your perspective and recognize the opportunities and support still available to you.\n\nTogether, these cards suggest that while you have the strength and resources to achieve personal success and independence, there may be an emotional hurdle or past disappointment that is holding you back. It's important to acknowledge any feelings of regret or loss, but also to focus on the positive aspects of your life and the potential for growth and fulfillment. Embrace your inner strength and the abundance around you, and allow yourself to move forward with confidence.",
-  // };
-
-  const onSubmit: SubmitHandler<TarotRequestSchemaType> = async (data, e) => {
-    e?.preventDefault();
-    setQuestion(data.question.trim());
-    await transfer({ question: data.question.trim(), tokenName: currencyName });
-  };
-
-  const handleTip = async () => {
-    if (!publicKey) {
-      toast.error('Connect wallet first');
-      return;
-    }
-
-    if (!selectedTip) {
-      toast.error('Select tip first');
-      return;
-    }
-
-    await showTxToast('Tipping the Oracle', async () => {
-      await transferCurrency({ amount: selectedTip, tokenName: currencyName });
-    });
-  };
 
   useEffect(() => {
     if (predictionAnswer) {
@@ -195,6 +154,38 @@ export const GameSection = () => {
     };
   }, [showTip, dontReload]);
 
+  const onSubmit: SubmitHandler<TarotRequestSchemaType> = async (data, e) => {
+    e?.preventDefault();
+    setQuestion(data.question.trim());
+    await transfer({ question: data.question.trim(), tokenName: currencyName });
+  };
+
+  const handleTip = async () => {
+    if (!publicKey) {
+      toast.error('Connect wallet first');
+      return;
+    }
+
+    if (!selectedTip) {
+      toast.error('Select tip first');
+      return;
+    }
+
+    await showTxToast('Tipping the Oracle', async () => {
+      await transferCurrency({ amount: selectedTip, tokenName: currencyName });
+    });
+  };
+
+  const handleSuggestQuestion = async () => {
+    if (questionsCache.current.length === 0) {
+      const res = await fetch('/text/questions.txt');
+      const text = await res.text();
+      questionsCache.current = text.split('\r\n');
+    }
+
+    setValue('question', questionsCache.current[Math.floor(Math.random() * questionsCache.current.length)]);
+  };
+
   return (
     <div className="container flex flex-col gap-[20px] py-[20px] font-inknut">
       <div className="text-center font-bona-nova-sc text-[30px] sm:text-[50px]">Your Future In One Forecast</div>
@@ -236,11 +227,14 @@ export const GameSection = () => {
 
       <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="text-center text-[20px] md:text-[24px]">Type your question and ask the cards</div>
-        <BaseTooltip content="COMING SOON">
-          <Button size="responsive" className="bg-[#D0C7A3] text-[22px]" variant="outline">
-            Suggest question
-          </Button>
-        </BaseTooltip>
+        <Button
+          onClick={handleSuggestQuestion}
+          size="responsive"
+          className="bg-[#D0C7A3] text-[22px]"
+          variant="outline"
+        >
+          Suggest question
+        </Button>
       </div>
 
       <div className="grid overflow-hidden">
