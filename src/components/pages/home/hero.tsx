@@ -18,11 +18,13 @@ export const Hero = () => {
 
         {publicKey?.equals(OwnerAddress[network]) && <AdminBtn />}
       </div>
+
       <img
         src="/images/landing/hero-bg.webp"
         alt="bg"
         className="absolute left-1/2 top-0 -z-[20] h-full w-full -translate-x-1/2 object-cover object-center xl:object-contain"
       />
+
       <div className="absolute bottom-0 -z-[10] h-[335px] w-full bg-[url('/images/landing/clouds.png')] md:h-[370px]" />
     </div>
   );

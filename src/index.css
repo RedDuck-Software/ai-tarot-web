@@ -105,3 +105,38 @@ body {
     transform: rotate(-360deg);
   }
 }
+
+@media (max-width: 768px) {
+  @keyframes firstCardAppearance {
+    0% {
+      transform: translateX(50%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes secondCardAppearance {
+    0% {
+      transform: translateX(180%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes thirdCardAppearance {
+    0% {
+      transform: translateX(300%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}
