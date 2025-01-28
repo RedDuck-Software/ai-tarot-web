@@ -17,19 +17,19 @@ export const currencies = {
     address: wSolMint,
     decimals: 9,
     tips: [0.01, 0.05, 0.1, 0.5],
-    defaultPrice: 0.05,
+    defaultPrice: 0.003,
   },
   usdcMint: {
     address: usdcMint,
     decimals: 6,
     tips: [5, 10, 20, 100],
-    defaultPrice: 10,
+    defaultPrice: 1,
   },
   usdtMint: {
     address: usdtMint,
     decimals: 6,
     tips: [5, 10, 20, 100],
-    defaultPrice: 10,
+    defaultPrice: 1,
   },
 };
 
