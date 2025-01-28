@@ -70,8 +70,6 @@ const useSend = () => {
       const fee = await rawTx.getEstimatedFee(connection);
       const solBalance = tokens?.find((token) => token.mint === wSolMint.toBase58())?.amount;
 
-      console.log(solBalance, fee);
-
       if (fee && solBalance && Number(solBalance) < fee) {
         throw new Error('Insufficient funds');
       }
