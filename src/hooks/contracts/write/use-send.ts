@@ -31,7 +31,7 @@ const useSend = () => {
 
       const tokenBalanceInfo = tokens?.find((token) => token.mint === currencies[tokenName].address.toString());
 
-      if (!tokenBalanceInfo || Number(tokenBalanceInfo.amount) < amount) {
+      if (!tokenBalanceInfo || Number(tokenBalanceInfo.amount) < amount * 1e6) {
         throw new Error('Insufficient funds');
       }
 
@@ -69,6 +69,8 @@ const useSend = () => {
 
       const fee = await rawTx.getEstimatedFee(connection);
       const solBalance = tokens?.find((token) => token.mint === wSolMint.toBase58())?.amount;
+
+      console.log(solBalance, fee);
 
       if (fee && solBalance && Number(solBalance) < fee) {
         throw new Error('Insufficient funds');
